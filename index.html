@@ -40,6 +40,8 @@ html.tv-ui .account-layout{gap:30px;grid-template-columns:1fr 430px}html.tv-ui .
 .sidebar{overflow-y:auto;overscroll-behavior:contain}.sidebar .brand,.sidebar .nav,.sidebar .sidebar-bottom{flex-shrink:0}.sidebar .library-note{padding-top:14px;padding-bottom:14px}html.tv-ui .sidebar{overflow-y:auto}
 html.tv-ui .brand-name span{display:none}html.tv-ui .nav button{min-height:46px;padding-top:9px;padding-bottom:9px}@media(max-width:720px){.nav [data-view="conta"]{display:none}}
 .addon-episodes{flex-wrap:wrap}.addon-episodes .select-wrap{max-width:350px}
+.library-toolbar{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:12px;padding:20px 0;border-bottom:1px solid var(--line)}.library-toolbar .eyebrow{font-size:.8125rem;letter-spacing:.09em;color:var(--accent);font-weight:650;margin-bottom:7px}.library-toolbar p{font-size:1rem;line-height:1.5}.library-toolbar-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.library-toolbar-actions .select-wrap{min-width:180px}.library-filters{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:24px 0 34px}.library-filters .select-wrap{min-width:200px;max-width:440px;flex:1}.library-provider{font-size:.875rem;color:var(--muted);margin-bottom:6px}.library-catalog>.section-head{margin-bottom:12px}.library-catalog .vod-row{padding:12px 8px 16px;margin-left:-8px;margin-right:-8px;scroll-padding:8px}.library-row-message{padding:24px;border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--muted);font-size:1rem;line-height:1.6}.library-row-message h3{color:var(--text);margin-bottom:8px}.library-row-message button{margin-top:10px}.library-home-heading{display:flex;gap:22px;align-items:center;margin:10px 0 28px}.library-home-heading>div{flex:1}.library-home-heading p{margin-top:8px;font-size:1rem}.library-home-empty{display:flex;align-items:center;justify-content:space-between;gap:24px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;margin-bottom:32px}.library-home-empty p{margin-top:10px;color:var(--muted);font-size:1rem}.library-sync-message:empty{display:none}.library-sync{margin-bottom:24px}.library-sync>p{margin-bottom:0}.addon-manager{padding:26px}.addon-manager .addon-installed-grid{grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:24px}.addon-manager .addon-installed{background:var(--bg)}.addon-order{display:flex;gap:10px;border-top:1px solid var(--line);padding-top:16px;margin-top:18px}.addon-order button{min-height:44px;font-size:.875rem}.addon-manager .addons-toolbar p{font-size:1rem;margin-top:7px}.library-sync-message{min-height:0}.library-skeleton{min-height:180px}html.tv-ui .library-toolbar{padding-top:10px}html.tv-ui .library-toolbar-actions{justify-content:flex-end}html.tv-ui .library-catalog{margin-bottom:32px}html.tv-ui .library-catalog .vod-row{padding-top:14px;padding-bottom:20px}html.tv-ui .library-filters{margin-bottom:24px}html.tv-ui .addon-manager .addon-installed-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:1050px){.library-toolbar{align-items:flex-start;flex-direction:column;gap:16px}.library-toolbar-actions{width:100%}.library-home-heading{align-items:flex-start;flex-wrap:wrap}.library-home-heading>div{flex-basis:100%}.library-home-empty{align-items:flex-start;flex-direction:column}}@media(max-width:720px){.library-toolbar-actions .select-wrap{min-width:155px;flex:1}.library-toolbar-actions button{flex:1;white-space:nowrap}.library-filters{gap:10px;margin:20px 0 24px}.library-filters .select-wrap{min-width:0;max-width:none;flex-basis:100%}.library-provider{font-size:.875rem}.library-catalog>.section-head{align-items:center}.library-catalog .vod-row{grid-auto-columns:40%}.addon-manager{padding:20px}.addon-manager .addon-installed-grid{grid-template-columns:1fr}.library-home-empty{padding:20px}.library-home-heading{gap:14px}.library-row-message{padding:20px}}
 
 </style>
 </head>
@@ -71,7 +73,6 @@ html.tv-ui .brand-name span{display:none}html.tv-ui .nav button{min-height:46px;
   <button data-view="canais"><svg aria-hidden="true"><use href="#i-grid"/></svg><span>Canais</span><span class="count" id="channel-count">—</span></button>
   <button data-view="filmes"><svg aria-hidden="true"><use href="#i-film"/></svg><span>Filmes</span></button>
   <button data-view="series"><svg aria-hidden="true"><use href="#i-series"/></svg><span>Séries</span></button>
-  <button data-view="addons"><svg aria-hidden="true"><use href="#i-addon"/></svg><span>Addons</span></button>
   <button data-view="agenda"><svg aria-hidden="true"><use href="#i-calendar"/></svg><span>Agenda</span></button>
   <button data-view="favoritos"><svg aria-hidden="true"><use href="#i-heart"/></svg><span class="nav-full">Favoritos</span><span class="nav-short">Salvos</span><span class="count" id="favorite-count">0</span></button>
   <button data-view="conta"><svg aria-hidden="true"><use href="#i-user"/></svg><span>Minha conta</span></button>
@@ -457,10 +458,15 @@ const AddonCore = (() => {
     if (!/\/manifest\.json$/i.test(u.pathname)) u.pathname = u.pathname.replace(/\/$/, '') + '/manifest.json';
     return u.href;
   }
+  function catalogExtra(catalog) {
+    const list=(Array.isArray(catalog.extra)?catalog.extra:[]).filter(e=>e&&typeof e.name==='string');
+    (Array.isArray(catalog.extraSupported)?catalog.extraSupported:[]).slice(0,30).forEach(name=>{if(typeof name==='string'&&!list.some(e=>e.name===name))list.push({name});});
+    return list.slice(0,30).map(e=>({name:text(e.name,40),required:!!(e.isRequired??e.required),options:Array.isArray(e.options)?e.options.map(x=>text(x,100)).slice(0,100):[]}));
+  }
   function manifest(value) {
     if (!value || typeof value !== 'object' || !text(value.id, 160) || !text(value.name, 120) || !Array.isArray(value.resources) || !Array.isArray(value.types)) throw new Error('O endereço não retornou um addon válido.');
     const resources = value.resources.slice(0, 20).filter(r => typeof r === 'string' || r && typeof r.name === 'string').map(r => typeof r === 'string' ? text(r, 40) : { name: text(r.name, 40), types: Array.isArray(r.types) ? r.types.map(x => text(x, 40)).slice(0, 20) : [], idPrefixes: Array.isArray(r.idPrefixes) ? r.idPrefixes.map(x => text(x, 80)).slice(0, 50) : null });
-    return { id: text(value.id, 160), name: text(value.name, 120), version: text(value.version, 40), description: text(value.description, 1200), logo: https(value.logo), types: value.types.map(t => text(t, 40)).slice(0, 20), idPrefixes: Array.isArray(value.idPrefixes) ? value.idPrefixes.map(x => text(x, 80)).slice(0, 50) : null, resources, catalogs: (Array.isArray(value.catalogs) ? value.catalogs : []).slice(0, 40).filter(c => c && text(c.id, 200) && text(c.type, 40)).map(c => ({ id: text(c.id, 200), type: text(c.type, 40), name: text(c.name || c.id, 120), extra: (Array.isArray(c.extra) ? c.extra : []).filter(e => e && typeof e.name === 'string').map(e => ({ name: text(e.name, 40), required: !!e.isRequired, options: Array.isArray(e.options) ? e.options.map(x => text(x, 100)).slice(0, 100) : [] })) })), configurable: !!value.behaviorHints?.configurable };
+    return { id: text(value.id, 160), name: text(value.name, 120), version: text(value.version, 40), description: text(value.description, 1200), logo: https(value.logo), types: value.types.map(t => text(t, 40)).slice(0, 20), idPrefixes: Array.isArray(value.idPrefixes) ? value.idPrefixes.map(x => text(x, 80)).slice(0, 50) : null, resources, catalogs: (Array.isArray(value.catalogs) ? value.catalogs : []).slice(0, 40).filter(c => c && text(c.id, 200) && text(c.type, 40)).map(c => ({ id: text(c.id, 200), type: text(c.type, 40), name: text(c.name || c.id, 120), extra: catalogExtra(c) })), configurable: !!value.behaviorHints?.configurable };
   }
   function supports(m, resource, type, id = '') {
     if (!m?.types.includes(type)) return false;
@@ -489,8 +495,23 @@ const AddonCore = (() => {
     else result.url = https(value.url);
     return result;
   }
+  function catalogChoices(installed, type = '', query = '') {
+    return installed.filter(a => a.enabled !== false && https(a.url)).flatMap(addon => (addon.manifest.catalogs || [])
+      .filter(c => ['movie','series'].includes(c.type) && (!type || c.type === type))
+      .filter(c => query ? c.extra.some(e => e.name === 'search') : !c.extra.some(e => e.name === 'search' && e.required))
+      .filter(c => !c.extra.some(e => e.required && !['search','skip'].includes(e.name) && !e.options.length))
+      .map(catalog => ({ key:JSON.stringify([addon.key,catalog.type,catalog.id]),addon,catalog })));
+  }
+  function catalogExtras(catalog, query = '', genre = '') {
+    const extras = {};
+    catalog.extra.forEach(e => { if(e.required && !['search','skip'].includes(e.name) && e.options.length) extras[e.name]=e.options[0]; });
+    if(query && catalog.extra.some(e => e.name==='search'))extras.search=query;
+    const filter=catalog.extra.find(e => e.name==='genre');
+    if(genre && filter?.options.includes(genre))extras.genre=genre;
+    return extras;
+  }
   function id(type, contentId) { return `${type}:${contentId}`; }
-  return { https, transport, manifest, supports, resourceURL, meta, stream, id };
+  return { https, transport, manifest, supports, resourceURL, meta, stream, id, catalogChoices, catalogExtras };
 })();
 if (typeof module === 'object' && module.exports) module.exports = AddonCore;
 
@@ -550,7 +571,12 @@ function refreshPersonalUI() {
   const b = $('account-button'); if (b) { b.setAttribute('aria-label', account.user ? 'Minha conta' : 'Entrar na conta'); b.querySelector('span').textContent = account.user ? 'Minha conta' : 'Entrar'; }
   if (!$('addon-dialog').open && !$('addon-install').open && !$('vod-dialog').open&&!$('addon-dialog').open&&!$('addon-install').open && !$('player').open && !document.querySelector('#account-form input:focus')) render();
 }
-async function syncPersonal() {
+function syncPersonal() {
+  if(account.syncPromise)return account.syncPromise;
+  const task=syncPersonalOnce();account.syncPromise=task;
+  return task.finally(()=>{if(account.syncPromise===task)account.syncPromise=null;});
+}
+async function syncPersonalOnce() {
   if (!account.client || !account.user || account.syncing || !navigator.onLine) { if (account.user && !navigator.onLine) setSyncStatus('Sem conexão · alterações salvas neste aparelho'); return false; }
   const client = account.client, uid = account.user.id, generation = account.generation;
   account.syncing = true; setSyncStatus('Sincronizando…');
@@ -590,13 +616,13 @@ async function activateSession(session, event = '') {
   if (uid === (account.user?.id || null) && account.initialized) { if (event === 'PASSWORD_RECOVERY') navigate('conta'); return; }
   stopPersonalPlayback(); clearTimeout(account.timer); account.timer = null;
   if(uid)stopPairPolling();
-  ++account.generation; account.syncing = false; account.user = session?.user || null; account.initialized = true;
+  ++account.generation; account.syncing = false; account.syncPromise = null; if(typeof addonSync!=='undefined'){++addonSync.generation;addonSync.busy=false;addonSync.message='';addonSync.failed=false;} account.user = session?.user || null; account.initialized = true;
   account.applying = true;
   recordStores.forEach(([k, kind, get, set]) => set(baseRead(scopedKey(k), kind.endsWith('progress') ? {} : [])));
   account.applying = false;
   account.pending = account.user ? baseRead(pendingKey(), {}) : {};
   if (!account.pending || typeof account.pending !== 'object' || Array.isArray(account.pending)) account.pending = {};
-  account.baseline = personalSnapshot(); resetAddonCatalog(); refreshPersonalUI();
+  account.baseline = personalSnapshot(); resetAddonCatalog(); if(typeof library!=='undefined')library.source='addons'; refreshPersonalUI();
   if (account.user) { setSyncStatus('Conectando à sua conta…'); await syncPersonal(); }
   if (event === 'PASSWORD_RECOVERY') navigate('conta');
 }
@@ -615,7 +641,7 @@ async function initializeAccounts() {
   try { const r = await fetch('https://brnmadalena.github.io/minha-tv/app-config.json', { credentials: 'omit', cache: 'no-store' }); if (r.ok) { const fresh = await r.json(); if (validCloudConfig(fresh)) { raw = fresh; basePersist('minhatv.public-config', fresh); } } } catch (_) {}
   const config = validCloudConfig(raw); account.config = config;
   if (!config) { account.initialized = true; refreshPersonalUI(); return; }
-  account.client = MinhaTvDeps.createClient(config.url, config.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'implicit', storageKey: `minhatv.auth.${new URL(config.url).hostname}` }, global: { headers: { 'X-Client-Info': 'minhatv/1.1.0' } } });
+  account.client = MinhaTvDeps.createClient(config.url, config.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'implicit', storageKey: `minhatv.auth.${new URL(config.url).hostname}` }, global: { headers: { 'X-Client-Info': 'minhatv/1.2.0' } } });
   account.client.auth.onAuthStateChange((event, session) => { setTimeout(() => activateSession(session, event), 0); });
   const { data } = await account.client.auth.getSession(); await activateSession(data.session);
 }
@@ -624,12 +650,18 @@ function renderAccount() {
   const notice = account.message ? `<p class="account-notice ${account.failure ? 'is-error' : ''}" role="status">${esc(account.message)}</p>` : '';
   if (!account.initialized) return `<div class="account-card"><h2>Preparando sua conta</h2><p class="muted" role="status">Verificando a conexão…</p></div>`;
   if (!account.client) return `<section class="account-intro"><span class="account-hero-icon">${icon('user')}</span><p class="eyebrow">TUDO NO SEU LUGAR</p><h2>Sua TV acompanha você.</h2><p>Seus addons, favoritos e histórias continuam com você em cada aparelho.</p></section><div class="account-card"><h3>As contas estão sendo preparadas</h3><p>O acesso com e-mail e senha estará disponível assim que a configuração das contas for concluída.</p><p class="muted">Enquanto isso, você pode continuar assistindo aos canais e aos catálogos disponíveis.</p><button class="button-secondary" data-account-action="check-config">Verificar disponibilidade</button></div>`;
-  if (account.user && account.mode !== 'password' && account.mode !== 'delete') return `<section class="account-intro compact"><span class="account-hero-icon">${icon('user')}</span><p class="eyebrow">MINHA CONTA</p><h2>Bom ter você por aqui.</h2><p>${esc(account.user.email || 'Sua conta está conectada.')}</p></section>${notice}<div class="account-card"><h3>Seus dados, nos seus aparelhos.</h3><p id="account-sync-status" role="status">${esc(account.syncStatus)}</p><div class="account-actions"><button class="primary" data-view="addons">Meus addons</button><button class="button-secondary" data-account-action="sync">Sincronizar agora</button></div></div><div class="account-card"><h3>Favoritos deste aparelho</h3><p>Se você já assistia sem entrar, pode trazer os favoritos e o histórico do modo visitante para sua conta.</p><button class="button-secondary" data-account-action="import">Trazer dados do visitante</button></div><div class="account-card account-actions"><button class="button-secondary" data-account-action="logout" ${account.busy ? 'disabled' : ''}>Sair da conta</button><button class="text-button account-danger" data-account-action="delete-mode">Excluir minha conta</button></div>`;
+  if (account.user && account.mode !== 'password' && account.mode !== 'delete') return `<section class="account-intro compact"><span class="account-hero-icon">${icon('user')}</span><p class="eyebrow">MINHA CONTA</p><h2>Bom ter você por aqui.</h2><p>${esc(account.user.email || 'Sua conta está conectada.')}</p></section>${notice}<div class="account-card"><h3>Seus dados, nos seus aparelhos.</h3><p id="account-sync-status" role="status">${esc(account.syncStatus)}</p><div class="account-actions"><button class="primary" data-view="filmes">Explorar filmes</button><button class="button-secondary" data-view="series">Explorar séries</button><button class="button-secondary" data-account-action="sync">Sincronizar agora</button></div></div>${renderAddonManager()}<div class="account-card"><h3>Favoritos deste aparelho</h3><p>Se você já assistia sem entrar, pode trazer os favoritos e o histórico do modo visitante para sua conta.</p><button class="button-secondary" data-account-action="import">Trazer dados do visitante</button></div><div class="account-card account-actions"><button class="button-secondary" data-account-action="logout" ${account.busy ? 'disabled' : ''}>Sair da conta</button><button class="text-button account-danger" data-account-action="delete-mode">Excluir minha conta</button></div>`;
   const mode = account.mode, signup = mode === 'signup', reset = mode === 'reset', password = mode === 'password', deletion = mode === 'delete';
   const title = deletion ? 'Excluir sua conta?' : password ? 'Sua nova senha' : reset ? 'Recuperar acesso' : signup ? 'Crie sua conta' : 'Entre na sua conta';
   return `<div class="account-layout"><section class="account-intro"><span class="account-hero-icon">${icon('user')}</span><p class="eyebrow">SUA TV, DO SEU JEITO</p><h2>Uma conta.<br>Seus próximos bons momentos.</h2><p>Adicione seus addons e continue de onde parou, na TV ou no navegador.</p></section><section class="account-card"><h2>${title}</h2><p>${deletion ? 'Sua conta, addons, favoritos e histórico na nuvem serão excluídos. Confirme sua senha para continuar.' : reset ? 'Vamos enviar um link para você definir uma nova senha.' : 'Use uma conta da Minha TV.'}</p>${notice}<form id="account-form" data-mode="${mode}">${!password && !deletion ? `<label for="account-email">E-mail</label><input id="account-email" type="email" name="email" autocomplete="email" required maxlength="254" value="">` : ''}${!reset ? `<label for="account-password">${password ? 'Nova senha' : 'Senha'}</label><div class="password-field"><input id="account-password" type="password" name="password" autocomplete="${signup || password ? 'new-password' : 'current-password'}" required minlength="${signup || password ? '8' : '1'}" maxlength="128"><button type="button" data-account-action="show-password" aria-label="Mostrar senha">Mostrar</button></div>${signup || password ? '<p class="account-helper">Use pelo menos 8 caracteres.</p>' : ''}` : ''}<button class="primary account-submit" ${account.busy ? 'disabled' : ''}>${account.busy ? 'Aguarde…' : deletion ? 'Excluir definitivamente' : password ? 'Salvar nova senha' : reset ? 'Enviar link de recuperação' : signup ? 'Criar conta' : 'Entrar'}</button></form><div class="account-links">${account.user ? '<button class="text-button" data-account-action="cancel-mode">Cancelar</button>' : `<button class="text-button" data-account-action="${signup || reset ? 'login-mode' : 'signup-mode'}">${signup || reset ? 'Já tenho uma conta' : 'Criar uma conta'}</button>${!reset ? '<button class="text-button" data-account-action="reset-mode">Esqueci minha senha</button>' : ''}`}</div></section></div>`;
 }
-function updateAccountView() { if (state.view === 'conta') { $('content').innerHTML = renderAccount(); $('content').setAttribute('aria-busy', 'false'); } }
+function updateAccountView() {
+  if(state.view!=='conta')return;
+  const active=document.activeElement,id=active?.id,marker=active&&$('content').contains(active)?['data-addon-toggle','data-addon-remove','data-addon-action','data-account-action'].map(a=>[a,active.getAttribute(a)]).find(x=>x[1]!==null):null;
+  $('content').innerHTML=renderAccount();$('content').setAttribute('aria-busy','false');
+  const target=id?document.getElementById(id):marker?[...$('content').querySelectorAll('button')].find(b=>b.getAttribute(marker[0])===marker[1]):null;
+  target?.focus({preventScroll:true});
+}
 function accountError(error) {
   const code = error?.code || '';
   if (code === 'invalid_credentials') return 'E-mail ou senha incorretos.';
@@ -681,12 +713,10 @@ window.addEventListener('online', () => { if (account.user) syncPersonal(); });
 window.addEventListener('storage', e => { if (account.user && e.key === pendingKey()) { account.pending = { ...account.pending, ...baseRead(pendingKey(), {}) }; scheduleSync(); } });
 setInterval(() => { if (account.user && !document.hidden) syncPersonal(); }, 60000);
 
-const addons = { installed: new Map(), favorites: new Map(), progress: {}, registered: new Map(), rows: [], selectedCatalog: '', catalogToken: 0, loading: false, error: '', queryKey: '', limit: 0, hasMore: false, preview: null, previewToken: 0, selected: null, episode: null, sources: [], contentToken: 0, hls: null, savedAt: 0 };
+const addons = { installed: new Map(), favorites: new Map(), progress: {}, registered: new Map(), preview: null, previewToken: 0, selected: null, episode: null, sources: [], contentToken: 0, hls: null, savedAt: 0 };
 function installedAddons() { return [...addons.installed.values()].filter(a => a.enabled !== false && AddonCore.https(a.url)); }
-function addonCatalogs() {
-  return installedAddons().flatMap(a => (a.manifest.catalogs || []).filter(c => !c.extra.some(e => e.required && !['search','skip'].includes(e.name))).map(c => ({ key: JSON.stringify([a.key,c.type,c.id]), addon: a, catalog: c })));
-}
-function resetAddonCatalog() { ++addons.catalogToken; addons.rows = []; addons.queryKey = ''; addons.selectedCatalog = ''; addons.loading = false; addons.error = ''; }
+
+function resetAddonCatalog() { addons.registered.clear(); if(typeof resetAddonLibrary==='function')resetAddonLibrary(); }
 async function addonJSON(url, max = 4000000) {
   const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 15000);
   try {
@@ -702,48 +732,16 @@ function addonCard(raw, continuing = false) {
   addons.registered.set(item.key,item);
   return `<article class="vod-card"><button class="vod-card-main" data-addon-open="${esc(item.key)}" aria-label="${continuing ? 'Continuar' : 'Ver'} ${esc(item.title)}"><div class="vod-poster"><span class="vod-poster-fallback">${icon(item.type === 'series' ? 'series' : 'film')}<span>${esc(item.title)}</span></span>${img(item.image,'vod-poster-image')}<span class="vod-card-play">${icon('play')}</span>${p?.duration > 0 ? `<div class="vod-card-progress"><span style="width:${Math.min(100,p.time/p.duration*100)}%"></span></div>` : ''}</div><h3>${esc(item.title)}</h3><p>${esc(continuing && p ? `${p.season ? `T${p.season} · E${p.episode} · ` : ''}${vodMinutes(p.time)}` : item.year || 'Dos seus addons')}</p></button>${continuing ? `<button class="vod-remove" data-addon-hide="${esc(item.key)}" aria-label="Remover de Continuar assistindo: ${esc(item.title)}">${icon('close')}</button>` : ''}<button class="vod-heart" data-addon-favorite="${esc(item.key)}" aria-pressed="${saved}" aria-label="${saved ? 'Remover dos' : 'Adicionar aos'} favoritos: ${esc(item.title)}">${icon('heart')}</button></article>`;
 }
-function addonContinueSection() {
+function addonContinueSection(type = '') {
   if (!account.user) return '';
-  const list = Object.values(addons.progress).filter(p => p?.item && p.time > 10 && p.duration > p.time + 20 && !p.hidden).sort((a,b) => b.updated-a.updated).slice(0,12);
+  const list = Object.values(addons.progress).filter(p => p?.item && (!type || p.item.type === type) && p.time > 10 && p.duration > p.time + 20 && !p.hidden).sort((a,b) => b.updated-a.updated).slice(0,12);
   return list.length ? section('Continue pelos seus addons', `<div class="vod-row">${list.map(p => addonCard(p.item,true)).join('')}</div>`) : '';
 }
 function addonFavoriteSection() { return account.user && addons.favorites.size ? section('Favoritos dos seus addons', `<div class="vod-grid">${[...addons.favorites.values()].map(x => addonCard(x)).join('')}</div>`) : ''; }
-function renderAddons() {
-  if (!account.user) return `<section class="addons-intro"><span class="account-hero-icon">${icon('addon')}</span><p class="eyebrow">SUAS FONTES, SEU ESPAÇO</p><h2>Mais histórias.<br>Do seu jeito.</h2><p>Entre para adicionar addons compatíveis com Stremio e guardar suas escolhas na sua conta.</p><button class="primary" data-view="conta">Entrar na minha conta</button></section><div class="account-card"><h3>Como funciona</h3><p>Adicione o link de um addon. Os catálogos e as fontes compatíveis ficam disponíveis aqui e acompanham sua conta nos outros aparelhos.</p></div>`;
-  const list = [...addons.installed.values()], choices = addonCatalogs();
-  if (!choices.some(c => c.key === addons.selectedCatalog)) addons.selectedCatalog = choices[0]?.key || '';
-  const picked = choices.find(c => c.key === addons.selectedCatalog);
-  if (picked && addons.queryKey !== `${picked.key}\0${state.query}`) loadAddonCatalog(false);
-  let html = `<div class="addons-toolbar"><div><h2>Meus addons</h2><p class="muted">${list.length} ${list.length === 1 ? 'addon na sua conta' : 'addons na sua conta'}</p></div><button class="primary" data-addon-action="add">${icon('plus')}Adicionar addon</button></div>`;
-  if (list.length) html += `<div class="addon-installed-grid">${list.map(a => `<article class="addon-installed"><div class="addon-installed-top"><span class="addon-logo">${img(a.manifest.logo,'',false)}${!a.manifest.logo ? icon('addon') : ''}</span><div><h3>${esc(a.manifest.name)}</h3><p>${esc(new URL(a.url).hostname)}</p></div></div><p class="addon-description">${esc(a.manifest.description || 'Addon adicionado à sua conta.')}</p><div class="addon-installed-actions"><button class="button-secondary" data-addon-toggle="${esc(a.key)}" aria-pressed="${a.enabled !== false}">${a.enabled !== false ? 'Ativado' : 'Desativado'}</button><button class="text-button" data-addon-remove="${esc(a.key)}">Remover</button></div></article>`).join('')}</div>`;
-  else html += `<div class="account-card"><h3>Comece com um addon</h3><p>Cole o link do manifesto para ver os detalhes antes de adicionar. Você também pode usar addons de catálogo e combinar as fontes dos outros addons.</p></div>`;
-  html += addonContinueSection();
-  if (picked) {
-    html += `<section class="section addon-catalog"><div class="section-head"><div><h2>Explorar seus addons</h2><p class="muted">${esc(picked.addon.manifest.name)}</p></div><div class="select-wrap"><select id="addon-catalog" aria-label="Catálogo dos addons">${choices.map(c => `<option value="${esc(c.key)}" ${c.key === picked.key ? 'selected' : ''}>${esc(c.addon.manifest.name + ' · ' + c.catalog.name + ' · ' + (c.catalog.type === 'movie' ? 'Filmes' : c.catalog.type === 'series' ? 'Séries' : c.catalog.type))}</option>`).join('')}</select></div></div>`;
-    if (addons.loading && !addons.rows.length) html += `<p class="addon-status" role="status">Consultando o catálogo…</p><div class="vod-grid">${Array.from({length:5},()=>'<div class="skeleton vod-skeleton"></div>').join('')}</div>`;
-    else if (addons.error) html += empty('O catálogo não respondeu',addons.error,'addon','<button class="button-secondary" data-addon-action="retry-catalog">Tentar novamente</button>');
-    else html += addons.rows.length ? `<div class="vod-grid">${addons.rows.map(i => addonCard(i)).join('')}</div>${addons.hasMore ? `<div class="vod-more"><button class="button-secondary" data-addon-action="more" ${addons.loading ? 'disabled' : ''}>${addons.loading ? 'Carregando…' : 'Mostrar mais títulos'}</button></div>` : ''}` : empty('Nenhum título neste filtro',state.query ? 'Tente outra busca ou outro catálogo.' : 'Escolha outro catálogo ou confira se o addon precisa de configuração.','search');
-    html += '</section>';
-  } else if (list.length) html += `<div class="account-card"><h3>Seus addons estão disponíveis como fontes</h3><p>Adicione também um addon de catálogo para explorar títulos aqui. Addons que exigem filtros adicionais precisam ser configurados no provedor.</p></div>`;
-  return html;
-}
-async function loadAddonCatalog(more = false) {
-  const choice = addonCatalogs().find(c => c.key === addons.selectedCatalog); if (!choice || !account.user) return;
-  const { addon, catalog } = choice, query = state.query, token = ++addons.catalogToken, generation = account.generation;
-  addons.loading = true; addons.error = ''; addons.queryKey = `${choice.key}\0${query}`;
-  if (!more) addons.rows = [];
-  const extraNames = catalog.extra.map(e => e.name), extras = {};
-  if (query) { if (!extraNames.includes('search')) { addons.loading = false; addons.error = 'Este catálogo não oferece busca. Limpe a busca para explorá-lo.'; queueMicrotask(render); return; } extras.search = query; }
-  if (more && extraNames.includes('skip')) extras.skip = addons.rows.length;
-  try {
-    const json = await addonJSON(AddonCore.resourceURL(addon.url,'catalog',catalog.type,catalog.id,extras));
-    if (token !== addons.catalogToken || generation !== account.generation) return;
-    if (!Array.isArray(json.metas)) throw new Error('Invalid catalog');
-    const items = json.metas.slice(0,200).map(m => AddonCore.meta(m,catalog.type)).filter(Boolean).map(m => ({...m,owner:addon.key,key:AddonCore.id(m.type,m.id)}));
-    addons.rows = [...new Map([...addons.rows,...items].map(i => [i.key,i])).values()].slice(0,1000);
-    addons.hasMore = items.length > 0 && extraNames.includes('skip') && addons.rows.length < 1000;
-  } catch (_) { if (token === addons.catalogToken) addons.error = 'Verifique sua conexão ou escolha outro addon.'; }
-  finally { if (token === addons.catalogToken && generation === account.generation) { addons.loading = false; if (state.view === 'addons') render(); } }
+function renderAddonManager() {
+  if(!account.user)return '';
+  const list=orderedAddons();
+  return '<section class="account-card addon-manager" id="account-addons"><div class="addons-toolbar"><div><h2>Meus addons</h2><p class="muted">Instale aqui. Explore os títulos em Filmes e Séries.</p></div><button class="primary" data-addon-action="add">'+icon('plus')+'Adicionar addon</button></div>'+syncAddonControls()+(list.length?'<div class="addon-installed-grid">'+list.map((a,i)=>`<article class="addon-installed"><div class="addon-installed-top"><span class="addon-logo">${img(a.manifest.logo,'',false)}${!a.manifest.logo?icon('addon'):''}</span><div><h3>${esc(a.manifest.name)}</h3><p>${esc(new URL(a.url).hostname)}</p></div></div><p class="addon-description">${esc(a.manifest.description||'Addon instalado na sua conta.')}</p><p class="account-helper">${a.manifest.catalogs.length} catálogos · ${a.manifest.types.map(t=>esc(t==='movie'?'Filmes':t==='series'?'Séries':t)).join(', ')}</p><div class="addon-installed-actions"><button class="button-secondary" data-addon-toggle="${esc(a.key)}" aria-pressed="${a.enabled!==false}">${a.enabled!==false?'Ativado':'Desativado'}</button><button class="text-button" data-addon-remove="${esc(a.key)}">Remover</button></div><div class="addon-order"><button class="button-secondary" id="addon-up-${esc(encodeURIComponent(a.key))}" data-addon-move="${esc(a.key)}" data-direction="up" aria-label="Subir ${esc(a.manifest.name)}" ${i===0?'disabled':''}>Subir</button><button class="button-secondary" id="addon-down-${esc(encodeURIComponent(a.key))}" data-addon-move="${esc(a.key)}" data-direction="down" aria-label="Descer ${esc(a.manifest.name)}" ${i===list.length-1?'disabled':''}>Descer</button></div></article>`).join('')+'</div>':'<div class="library-row-message"><h3>Traga seus catálogos</h3><p>Cole o manifest.json de um addon compatível. Depois entre na mesma conta na TV e use Sincronizar addons.</p></div>')+'<div class="account-actions"><button class="button-secondary" data-view="filmes">Explorar filmes</button><button class="button-secondary" data-view="series">Explorar séries</button></div></section>';
 }
 function addonDialogLock() { document.body.classList.toggle('modal-open',!!document.querySelector('dialog[open]')); }
 function showAddonInstall() {
@@ -762,7 +760,7 @@ document.addEventListener('submit', async e => {
   try {
     const url = AddonCore.transport($('addon-manifest-url').value), manifest = AddonCore.manifest(await addonJSON(url,300000));
     if (token !== addons.previewToken || generation !== account.generation) return;
-    addons.preview = { key:manifest.id,url,manifest,enabled:true,installedAt:Date.now() };
+    addons.preview = { key:manifest.id,url,manifest,enabled:true,sortOrder:orderedAddons().length,installedAt:Date.now() };
     $('addon-preview').innerHTML = `<div class="addon-preview-card"><h3>${esc(manifest.name)}</h3><p>${esc(manifest.description)}</p><p class="muted">${manifest.catalogs.length} catálogos · ${manifest.resources.map(r => esc(typeof r === 'string' ? r : r.name)).join(', ')}</p><button class="primary" data-addon-action="install">Adicionar à minha conta</button></div>`;
   } catch (_) { if (token === addons.previewToken) $('addon-preview').textContent = 'Não foi possível verificar. Confira o link HTTPS e se o addon permite acesso por navegador.'; }
   finally { if (token === addons.previewToken && $('addon-preview-button')) { button.disabled = false; button.textContent = 'Verificar addon'; } }
@@ -855,9 +853,7 @@ document.addEventListener('click', e => {
     case 'add': showAddonInstall(); break;
     case 'close-install': closeAddonInstall(); break;
     case 'close-content': closeAddonContent(); break;
-    case 'install': if (addons.preview && account.user) { if (addons.installed.size >= 20 && !addons.installed.has(addons.preview.key)) { $('addon-preview').textContent = 'Você pode manter até 20 addons por conta.'; break; } addons.installed.set(addons.preview.key,addons.preview); persist('rdc.addons',[...addons.installed.values()]); closeAddonInstall(); resetAddonCatalog(); render(); toast('Addon adicionado à sua conta.'); } break;
-    case 'retry-catalog': addons.queryKey = ''; render(); break;
-    case 'more': loadAddonCatalog(true); render(); break;
+    case 'install': if (addons.preview && account.user) { if (addons.installed.size >= 20 && !addons.installed.has(addons.preview.key)) { $('addon-preview').textContent = 'Você pode manter até 20 addons por conta.'; break; } addons.installed.set(addons.preview.key,addons.preview); persist('rdc.addons',[...addons.installed.values()]); closeAddonInstall(); resetAddonCatalog(); render(); toast('Addon instalado. Os títulos estão em Filmes e Séries.'); syncPersonal(); } break;
     case 'retry-sources': loadAddonStreams(); break;
     case 'next': { const list = addons.selected?.videos || [], next = list[list.indexOf(addons.episode)+1]; if (next) { stopAddonVideo(); addons.episode = next; ++addons.contentToken; renderAddonDetail(); loadAddonStreams(); } break; }
     case 'fullscreen': { const video = $('addon-video'); if (video?.requestFullscreen) video.requestFullscreen().catch(()=>addonVideoStatus('Use o botão de tela cheia do vídeo.')); break; }
@@ -865,7 +861,6 @@ document.addEventListener('click', e => {
 });
 document.addEventListener('change', e => {
   if(e.target.id==='addon-season'){stopAddonVideo();addons.episode=addons.selected.videos.find(v=>v.season===+e.target.value);++addons.contentToken;renderAddonDetail();loadAddonStreams();}
-  if (e.target.id === 'addon-catalog') { addons.selectedCatalog = e.target.value; addons.queryKey = ''; render(); }
   if (e.target.id === 'addon-episode') { stopAddonVideo(); addons.episode = addons.selected.videos.find(v => v.id === e.target.value); ++addons.contentToken; renderAddonDetail(); loadAddonStreams(); }
 });
 $('addon-install').addEventListener('cancel', e => { e.preventDefault(); closeAddonInstall(); });
@@ -932,32 +927,198 @@ renderAccount = function () {
 window.addEventListener('minhatv-app-ready', () => { if (state.view === 'conta' && !document.querySelector('#account-form input:focus')) updateAccountView(); });
 document.addEventListener('click', e => { if (e.target.closest('[data-account-action="app-update"]') && window.MinhaTvApp) window.MinhaTvApp.checkUpdate(); });
 
+// Account addons feed the ordinary movie/series screens; management stays in Account.
+const library = { source:'addons', filters:{movie:{catalog:'',genre:'',limit:8},series:{catalog:'',genre:'',limit:8}}, cache:new Map(), queue:[], active:0, generation:0, signature:'' };
+const addonSync = { busy:false, message:'', failed:false, generation:0 };
+function orderedAddons() { return [...addons.installed.values()].sort((a,b)=>(a.sortOrder??a.installedAt??0)-(b.sortOrder??b.installedAt??0)); }
+function libraryChoices(type='',query='') { return AddonCore.catalogChoices(orderedAddons(),type,query); }
+function resetAddonLibrary() {
+  ++library.generation; library.queue=[]; library.cache.clear(); library.signature='';
+  library.filters={movie:{catalog:'',genre:'',limit:8},series:{catalog:'',genre:'',limit:8}};
+}
+function ensureLibrarySignature() {
+  const signature=JSON.stringify(orderedAddons().map(a=>[a.key,a.url,a.enabled,a.sortOrder,a.manifest]));
+  if(library.signature!==signature){++library.generation;library.queue=[];library.cache.clear();library.signature=signature;}
+}
+function libraryRefreshVisible() {
+  if(document.querySelector('dialog[open]'))return;
+  if(state.view==='conta')updateAccountView();
+  else if(['inicio','filmes','series'].includes(state.view))render();
+}
+function libraryEntry(choice,query='',genre='') {
+  const key=JSON.stringify([choice.key,query,genre]);
+  let entry=library.cache.get(key);
+  if(!entry){
+    entry={key,choice,query,genre,items:[],status:'queued',error:'',hasMore:false,nextSkip:0,generation:library.generation,accountGeneration:account.generation};
+    library.cache.set(key,entry); library.queue.push(entry);queueMicrotask(pumpLibrary);
+    if(library.cache.size>100){const removable=[...library.cache].find(([,x])=>!['loading','queued'].includes(x.status));if(removable)library.cache.delete(removable[0]);}
+  }
+  return entry;
+}
+function libraryResult(entry,layout='row') {
+  const loading=['loading','queued'].includes(entry.status);
+  if(!entry.items.length&&loading)return `<div class="${layout==='grid'?'vod-grid':'vod-row'} library-skeleton" aria-label="Carregando catálogo">${Array.from({length:5},()=>'<div class="skeleton vod-skeleton"></div>').join('')}</div>`;
+  if(entry.error&&!entry.items.length)return `<div class="library-row-message" role="status"><p>Este catálogo não respondeu. Os demais continuam disponíveis.</p><button class="text-button" data-library-retry="${esc(entry.key)}">Tentar novamente</button></div>`;
+  if(!entry.items.length)return `<p class="library-row-message" role="status">${entry.query?'Nenhum resultado neste catálogo.':'Nenhum título disponível neste catálogo.'}</p>`;
+  let html=`<div class="${layout==='grid'?'vod-grid':'vod-row'}">${entry.items.slice(0,layout==='grid'?1000:15).map(i=>addonCard(i)).join('')}</div>`;
+  if(layout==='grid'&&entry.hasMore)html+=`<div class="vod-more"><button class="button-secondary" data-library-more="${esc(entry.key)}" ${loading?'disabled':''}>${loading?'Carregando…':'Mostrar mais títulos'}</button></div>`;
+  if(entry.error)html+='<p class="account-helper" role="status">Não foi possível carregar a próxima página. Tente novamente.</p>';
+  return html;
+}
+function paintLibraryEntry(entry) {
+  if(entry.generation!==library.generation||entry.accountGeneration!==account.generation)return;
+  document.querySelectorAll('[data-library-result]').forEach(el=>{
+    if(el.dataset.libraryResult!==entry.key)return;
+    // Replace only this catalog, keeping the rest of the page and remote focus stable.
+    const active=document.activeElement,inside=el.contains(active),open=active?.dataset?.addonOpen,favorite=active?.dataset?.addonFavorite,scroll=el.querySelector('.vod-row')?.scrollLeft||0;
+    el.innerHTML=libraryResult(entry,el.dataset.layout);el.setAttribute('aria-busy','false');
+    const row=el.querySelector('.vod-row');if(row)row.scrollLeft=scroll;
+    if(inside){const target=[...el.querySelectorAll('button')].find(b=>open&&b.dataset.addonOpen===open||favorite&&b.dataset.addonFavorite===favorite)||el.querySelector('button');target?.focus({preventScroll:true});}
+  });
+}
+async function pumpLibrary() {
+  while(library.active<4&&library.queue.length){
+    const entry=library.queue.shift();
+    if(entry.generation!==library.generation||entry.accountGeneration!==account.generation)continue;
+    library.active++;entry.status='loading';
+    loadLibraryEntry(entry).finally(()=>{library.active--;pumpLibrary();});
+  }
+}
+async function loadLibraryEntry(entry) {
+  const {choice}=entry,{addon,catalog}=choice,skip=entry.nextSkip;
+  try{
+    const extras=AddonCore.catalogExtras(catalog,entry.query,entry.genre);if(skip)extras.skip=skip;
+    const response=await addonJSON(AddonCore.resourceURL(addon.url,'catalog',catalog.type,catalog.id,extras));
+    if(entry.generation!==library.generation||entry.accountGeneration!==account.generation)return;
+    if(!Array.isArray(response.metas))throw new Error('Invalid catalog');
+    const raw=response.metas.slice(0,200),items=raw.map(m=>AddonCore.meta(m,catalog.type)).filter(m=>m&&m.type===catalog.type).map(m=>({...m,owner:addon.key,key:AddonCore.id(m.type,m.id)}));
+    const before=entry.items.length;
+    entry.items=[...new Map([...entry.items,...items].map(i=>[i.key,i])).values()].slice(0,1000);
+    entry.nextSkip+=raw.length;
+    entry.hasMore=raw.length>0&&entry.items.length>before&&catalog.extra.some(e=>e.name==='skip')&&entry.items.length<1000;
+    entry.status='ready';entry.error='';
+  }catch(_){if(entry.generation===library.generation){entry.status='error';entry.error='Catálogo indisponível';}}
+  finally{paintLibraryEntry(entry);}
+}
+function libraryRow(choice,query='',genre='',grid=false) {
+  const entry=libraryEntry(choice,query,genre),label=choice.catalog.type==='series'?'Séries':'Filmes';
+  return `<section class="section library-catalog"><div class="section-head"><div><p class="library-provider">${esc(choice.addon.manifest.name)} · ${label}</p><h2>${esc(choice.catalog.name)}</h2></div>${!grid?`<button class="text-button" data-library-open="${esc(choice.key)}">Ver todos</button>`:''}</div><div data-library-result="${esc(entry.key)}" data-layout="${grid?'grid':'row'}" aria-busy="${['queued','loading'].includes(entry.status)}">${libraryResult(entry,grid?'grid':'row')}</div></section>`;
+}
+function syncAddonControls() {
+  return `<div class="library-sync"><button class="button-secondary" data-addon-action="sync" ${addonSync.busy?'disabled':''}>${icon('refresh')}${addonSync.busy?'Sincronizando addons…':'Sincronizar addons'}</button><p class="account-helper ${addonSync.failed?'account-danger':''}" role="status" data-addon-sync-message>${esc(addonSync.message||'Instalou em outro aparelho? Use a mesma conta e sincronize aqui.')}</p></div>`;
+}
+function libraryToolbar(type) {
+  return `<div class="library-toolbar"><div><p class="eyebrow">SUA BIBLIOTECA</p><p class="muted">${account.user?'Catálogos dos addons instalados na sua conta.':'Entre para usar seus addons em todos os aparelhos.'}</p></div><div class="library-toolbar-actions"><div class="select-wrap"><select id="library-source" aria-label="Origem dos catálogos"><option value="addons" ${library.source==='addons'?'selected':''}>Seus addons</option><option value="saimo" ${library.source==='saimo'?'selected':''}>Catálogo Saimo</option></select></div>${account.user?`<button class="button-secondary" data-addon-action="sync" ${addonSync.busy?'disabled':''}>${icon('refresh')}${addonSync.busy?'Sincronizando…':'Sincronizar addons'}</button>`:'<button class="button-secondary" data-view="conta">Entrar na conta</button>'}</div></div>${account.user?`<p class="account-helper library-sync-message ${addonSync.failed?'account-danger':''}" role="status" data-addon-sync-message>${esc(addonSync.message)}</p>`:''}`;
+}
+function renderLibrary(type) {
+  ensureLibrarySignature();
+  if(!account.initialized)return '<div class="account-card" role="status"><h2>Preparando sua biblioteca</h2><p>Conectando os catálogos da sua conta…</p></div>';
+  // Guests keep the original catalog. Signed-in users start with their own addons.
+  if(!account.user)return renderVod();
+  const toolbar=libraryToolbar(type);
+  if(library.source==='saimo')return toolbar+renderVod();
+  const query=state.query.trim(),choices=libraryChoices(type,query),filter=library.filters[type];
+  if(!choices.some(c=>c.key===filter.catalog)){filter.catalog='';filter.genre='';}
+  if(!choices.length){
+    const enabled=installedAddons().length;
+    const disabled=addons.installed.size>0&&!enabled;
+    return toolbar+empty(query?'Nenhum catálogo oferece esta busca':disabled?'Seus addons estão desativados':enabled?'Falta um catálogo para explorar':'Sua biblioteca começa com seus addons',query?'Limpe a busca ou adicione um addon de catálogo com pesquisa.':disabled?'Ative seus addons em Minha conta para voltar a explorar os catálogos.':enabled?'Addons de fontes aparecem ao abrir um título. Instale também um addon de catálogo para descobrir filmes e séries.':'Adicione seus addons em Minha conta. Os filmes e séries vão aparecer aqui, inclusive na TV.','addon',`<button class="primary" data-view="conta">Gerenciar addons</button>${query?'<button class="text-button" data-action="clear-search">Limpar busca</button>':''}`);
+  }
+  const picked=choices.find(c=>c.key===filter.catalog),genre=picked?.catalog.extra.find(e=>e.name==='genre');
+  let html=toolbar+`<div class="library-filters"><div class="select-wrap"><select id="library-catalog" aria-label="Catálogo"><option value="">${query?'Buscar em todos os catálogos':'Todos os catálogos'}</option>${choices.map(c=>`<option value="${esc(c.key)}" ${filter.catalog===c.key?'selected':''}>${esc(c.addon.manifest.name+' · '+c.catalog.name)}</option>`).join('')}</select></div>${genre?.options.length?`<div class="select-wrap"><select id="library-genre" aria-label="Gênero do catálogo">${!genre.required?'<option value="">Todos os gêneros</option>':''}${genre.options.map((g,i)=>`<option value="${esc(g)}" ${filter.genre===g||!filter.genre&&genre.required&&i===0?'selected':''}>${esc(g)}</option>`).join('')}</select></div>`:''}${picked?'<button class="text-button" data-library-action="all">Ver todos os catálogos</button>':''}</div>`;
+  if(!query&&!picked)html+=addonContinueSection(type);
+  const visible=picked?[picked]:choices.slice(0,filter.limit);
+  html+=visible.map(c=>libraryRow(c,query,picked?filter.genre:'',!!picked)).join('');
+  if(!picked&&choices.length>filter.limit)html+='<div class="vod-more"><button class="button-secondary" data-library-action="more-catalogs">Mostrar mais catálogos</button></div>';
+  return html;
+}
+function libraryHome() {
+  if(!account.user)return '';
+  ensureLibrarySignature();const choices=libraryChoices();
+  const movies=choices.filter(c=>c.catalog.type==='movie').slice(0,2),series=choices.filter(c=>c.catalog.type==='series').slice(0,2);
+  if(!movies.length&&!series.length)return `<section class="library-home-empty"><div><h2>Suas histórias, em todos os aparelhos.</h2><p>Configure seus addons em Minha conta para trazer filmes e séries à sua biblioteca.</p></div><button class="button-secondary" data-view="conta">Gerenciar addons</button></section>`;
+  return `<div class="library-home-heading"><div><h2>Dos seus addons</h2><p class="muted">Escolha uma história. Suas fontes aparecem ao abrir o título.</p></div><button class="text-button" data-view="filmes">Explorar filmes</button><button class="text-button" data-view="series">Explorar séries</button></div>`+[...movies,...series].map(c=>libraryRow(c)).join('');
+}
+function paintAddonSync() {
+  document.querySelectorAll('[data-addon-action="sync"]').forEach(b=>{b.disabled=addonSync.busy;b.innerHTML=icon('refresh')+(addonSync.busy?'Sincronizando…':'Sincronizar addons');});
+  document.querySelectorAll('[data-addon-sync-message]').forEach(el=>{el.textContent=addonSync.message;el.classList.toggle('account-danger',addonSync.failed);});
+}
+async function synchronizeAddons() {
+  if(addonSync.busy||!account.user)return;
+  const generation=account.generation,attempt=++addonSync.generation;
+  addonSync.busy=true;addonSync.failed=false;addonSync.message='Buscando os addons da sua conta…';paintAddonSync();
+  try{
+    if(!await syncPersonal())throw new Error('Cloud sync failed');
+    if(generation!==account.generation)return;
+    const list=orderedAddons();let failed=0,index=0;
+    await Promise.all(Array.from({length:Math.min(4,list.length)},async()=>{
+      while(index<list.length){const original=list[index++];
+        try{const manifest=AddonCore.manifest(await addonJSON(original.url,300000));
+          if(generation!==account.generation)return;
+          const current=addons.installed.get(original.key);
+          if(current&&current.url===original.url&&manifest.id===current.manifest.id)current.manifest=manifest;
+          else failed++;
+        }catch(_){failed++;}
+      }
+    }));
+    if(generation!==account.generation)return;
+    persist('rdc.addons',orderedAddons());
+    if(!await syncPersonal())throw new Error('Cloud sync failed');
+    if(generation!==account.generation)return;
+    const count=addons.installed.size;
+    addonSync.message=failed?`${count} addons sincronizados. ${failed} não responderam; mantivemos a última configuração.`:count?`${count} ${count===1?'addon sincronizado':'addons sincronizados'}. ${installedAddons().length?'Abra Filmes ou Séries para assistir.':'Ative seus addons em Minha conta para explorar os catálogos.'}`:'Conta sincronizada. Adicione seus addons em Minha conta, no computador ou no celular.';
+    addonSync.failed=failed>0;
+    ++library.generation;library.cache.clear();library.queue=[];
+  }catch(_){if(generation===account.generation){addonSync.failed=true;addonSync.message='Não foi possível sincronizar. Confira a conexão e tente novamente; seus addons salvos foram mantidos.';}}
+  finally{if(attempt===addonSync.generation){addonSync.busy=false;if(generation===account.generation){paintAddonSync();libraryRefreshVisible();}}}
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.addonAction==='sync'){synchronizeAddons();return;}
+  if(b.dataset.libraryOpen){const choice=libraryChoices('',state.query).find(c=>c.key===b.dataset.libraryOpen);if(!choice)return;const view=choice.catalog.type==='series'?'series':'filmes';if(state.view!==view)navigate(view);library.filters[choice.catalog.type].catalog=choice.key;library.filters[choice.catalog.type].genre='';render();return;}
+  if(b.dataset.libraryRetry){const entry=library.cache.get(b.dataset.libraryRetry);if(entry&&!['loading','queued'].includes(entry.status)){entry.status='queued';entry.error='';library.queue.push(entry);paintLibraryEntry(entry);pumpLibrary();}return;}
+  if(b.dataset.libraryMore){const entry=library.cache.get(b.dataset.libraryMore);if(entry&&entry.hasMore&&!['loading','queued'].includes(entry.status)){entry.status='queued';library.queue.push(entry);paintLibraryEntry(entry);pumpLibrary();}return;}
+  if(b.dataset.libraryAction){const filter=library.filters[state.view==='series'?'series':'movie'];if(b.dataset.libraryAction==='all'){filter.catalog='';filter.genre='';}else filter.limit+=8;render();}
+  if(b.dataset.addonMove){const list=orderedAddons(),index=list.findIndex(a=>a.key===b.dataset.addonMove),target=index+(b.dataset.direction==='up'?-1:1);if(index<0||target<0||target>=list.length)return;[list[index],list[target]]=[list[target],list[index]];list.forEach((a,i)=>a.sortOrder=i);persist('rdc.addons',list);render();syncPersonal();}
+});
+document.addEventListener('change',e=>{
+  const type=state.view==='series'?'series':'movie',filter=library.filters[type];
+  if(e.target.id==='library-source'){library.source=e.target.value;render();}
+  if(e.target.id==='library-catalog'){filter.catalog=e.target.value;filter.genre='';render();}
+  if(e.target.id==='library-genre'){filter.genre=e.target.value;render();}
+});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&account.user)syncPersonal();});
+window.addEventListener('minhatv-app-resume',()=>{if(account.user)syncPersonal();});
+
 function render(){
  const searching=!!state.query;
- $('search').placeholder=state.view==='addons'?'Buscar nos seus addons':isVodView()?'Buscar '+(state.view==='filmes'?'filmes':'séries'):'Busque canais, programas e jogos';
+ $('search').placeholder=isVodView()?'Buscar '+(state.view==='filmes'?'filmes':'séries'):'Busque canais, programas e jogos';
+ $('search').setAttribute('aria-label',$('search').placeholder);
  const titles={inicio:['Assistir agora','Encontre seu próximo bom momento.'],canais:['Todos os canais','Escolha o canal. O próximo play é seu.'],agenda:['Agenda esportiva','Os jogos e as competições em um só lugar.'],favoritos:['Seus favoritos','Tudo o que você gosta, sempre por perto.'],filmes:['Filmes','Boas histórias, no seu tempo.'],series:['Séries','Encontre sua próxima maratona.'],addons:['Seus addons','Catálogos e fontes que acompanham sua conta.'],conta:['Minha conta','Seu espaço, em todos os aparelhos.']};
  $('page-title').textContent=searching?'Sua busca':titles[state.view][0];$('page-subtitle').textContent=searching?`Resultados para “${state.query}”`:titles[state.view][1];
  document.querySelectorAll('.nav [data-view]').forEach(b=>{if(b.dataset.view===state.view&&!searching)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
  $('channel-count').textContent=state.loaded?state.channels.length:'—';$('favorite-count').textContent=state.favorites.size+vod.favorites.size+(account.user?addons.favorites.size:0);$('clear-search').hidden=!searching;
  if(state.view==='conta'){if(!$('account-form')?.contains(document.activeElement))updateAccountView();return;}
- if(state.view==='addons'){$('content').innerHTML=renderAddons();$('content').setAttribute('aria-busy','false');return;}
- if(!state.loaded&&!isVodView())return;
+ if(state.view==='addons'){state.view='conta';history.replaceState(null,'','#conta');updateAccountView();return;}
+ if(!state.loaded&&!isVodView()&&state.view!=='inicio')return;
  let html='';
- if(isVodView()){html=renderVod();}
+ if(isVodView()){html=renderLibrary(state.view==='series'?'series':'movie');}
  else if(searching){const channels=sortChannels(state.channels.filter(matches)),events=sortedEvents(state.events.filter(matches));html=`<p class="results-count" role="status">${channels.length} ${channels.length===1?'canal':'canais'} e ${events.length} ${events.length===1?'evento encontrado':'eventos encontrados'}</p>`;if(channels.length)html+=section('Canais',channelBody(channels));if(events.length)html+=section('Eventos',`<div class="event-grid">${events.map(eventCard).join('')}</div>`);if(!channels.length&&!events.length)html+=empty('Não encontramos esse programa','Busque pelo nome de um canal, programa, time ou competição.','search','<button class="text-button" data-action="clear-search">Limpar busca</button>')}
- else if(state.view==='inicio'){const channels=filteredChannels();html=feature()+addonContinueSection()+section('No ar agora',categoryChips()+channelBody(channels.slice(0,8)),'<button class="text-button" data-view="canais">Ver todos</button>',state.channels.length);const events=sortedEvents(state.events);if(events.length)html+=section('O esporte não para',`<div class="event-grid">${events.slice(0,3).map(eventCard).join('')}</div>`,'<button class="text-button" data-view="agenda">Ver agenda</button>')}
+ else if(state.view==='inicio'){const channels=filteredChannels();html=addonContinueSection()+libraryHome()+feature()+section('No ar agora',categoryChips()+channelBody(channels.slice(0,8)),'<button class="text-button" data-view="canais">Ver todos</button>',state.channels.length);const events=sortedEvents(state.events);if(events.length)html+=section('O esporte não para',`<div class="event-grid">${events.slice(0,3).map(eventCard).join('')}</div>`,'<button class="text-button" data-view="agenda">Ver agenda</button>')}
  else if(state.view==='canais'){const channels=filteredChannels();html=categoryChips()+`<p class="results-count">${channels.length} ${channels.length===1?'canal disponível':'canais disponíveis'}</p>`+channelBody(channels)}
  else if(state.view==='agenda'){const events=sortedEvents(state.events.filter(e=>(state.eventStatus==='all'||e.status===state.eventStatus)&&(state.eventDate==='all'||(eventTimestamp(e)&&dateKeyFormat.format(new Date(eventTimestamp(e)*1000))===state.eventDate))));html=agendaControls()+`<p class="results-count">${events.length} ${events.length===1?'evento':'eventos'} <span aria-hidden="true">·</span> Horários de Brasília</p>`+(events.length?`<div class="event-grid section">${events.map(eventCard).join('')}</div>`:empty(state.errors.events?'Agenda indisponível':'Nenhum evento neste filtro',state.errors.events?'Não foi possível consultar a agenda. Tente atualizar a programação.':'Selecione outro status ou outra data para explorar a agenda.','calendar',`<button class="text-button" data-action="${state.errors.events?'refresh':'reset-events'}">${state.errors.events?'Tentar novamente':'Ver todos os eventos'}</button>`))}
  else {const channels=sortChannels(state.channels.filter(c=>state.favorites.has(key('channel',c)))),events=sortedEvents(state.events.filter(e=>state.favorites.has(key('event',e))));if(channels.length)html+=section('Canais favoritos',channelBody(channels));if(events.length)html+=section('Eventos salvos',`<div class="event-grid">${events.map(eventCard).join('')}</div>`);html+=vodSavedSection()+addonFavoriteSection();if(!html)html=empty('Seu próximo favorito está por aí',state.favorites.size?'Os favoritos salvos não estão no catálogo disponível agora. Atualize ou explore outros canais.':'Toque no coração de um canal ou evento. Ele aparecerá aqui, pronto para o próximo play.','heart','<button class="primary" data-view="canais">Explorar canais</button>')}
- const focused=document.activeElement;const focusElementId=$('content').contains(focused)?focused.id:null;const restore=focused&&$('content').contains(focused)?['data-category','data-status','data-favorite','data-action','data-vod-letter','data-vod-favorite','data-vod-action'].map(a=>[a,focused.getAttribute(a)]).find(x=>x[1]!==null):null;const focusId=focused?.dataset?.id;
+ const libraryOffsets=[...$('content').querySelectorAll('[data-library-result]')].map(el=>[el.dataset.libraryResult,el.querySelector('.vod-row')?.scrollLeft||0]);
+ const focused=document.activeElement;const focusElementId=$('content').contains(focused)?focused.id:null;const restore=focused&&$('content').contains(focused)?['data-category','data-status','data-favorite','data-action','data-vod-letter','data-vod-favorite','data-vod-action','data-addon-open','data-addon-favorite','data-addon-toggle','data-addon-remove','data-addon-move','data-library-action','data-library-open'].map(a=>[a,focused.getAttribute(a)]).find(x=>x[1]!==null):null;const focusId=focused?.dataset?.id;
  $('content').innerHTML=html;$('content').setAttribute('aria-busy','false');
+ libraryOffsets.forEach(([key,offset])=>{const el=[...$('content').querySelectorAll('[data-library-result]')].find(el=>el.dataset.libraryResult===key);if(el?.querySelector('.vod-row'))el.querySelector('.vod-row').scrollLeft=offset;});
  if(focusElementId)document.getElementById(focusElementId)?.focus({preventScroll:true});
  if(restore){const found=[...$('content').querySelectorAll(`[${restore[0]}]`)].find(b=>b.getAttribute(restore[0])===restore[1]&&(!focusId||b.dataset.id===focusId));found?.focus({preventScroll:true})}
 }
 function updateConnection(){const failed=Object.keys(state.errors),good=Object.keys(state.updated).length;const status=failed.length?'error':good?'ok':'loading';$('connection').dataset.status=status;$('connection-label').textContent=failed.length?(good?'Conexão parcial':'Sem conexão'):'Conectado';const latest=Math.max(0,...Object.values(state.updated));$('last-update').textContent=latest?`Atualizado às ${time(latest/1000)}`:'Tente atualizar a programação';const notice=$('api-notice');notice.hidden=!failed.length;if(failed.length)notice.querySelector('p').textContent=failed.map(k=>{const label=k==='channels'?'canais':'agenda';const previous=state.updated[k];return `Não foi possível atualizar ${label}${previous?`; exibindo dados de ${time(previous/1000)}`:''}.`}).join(' ')+' Verifique a conexão ou o endereço da API nas configurações.'}
 async function request(path){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),18000);try{const response=await fetch(base.replace(/\/+$/,'')+path,{signal:controller.signal,cache:'no-store',credentials:'omit'});if(!response.ok)throw new Error(`HTTP ${response.status}`);const json=await response.json();if(json.success===false||!('data'in json))throw new Error('Resposta inválida');return json.data}finally{clearTimeout(timer)}}
 async function load(){if(state.busy)return;state.busy=true;lastAttempt=Date.now();const run=++state.request;$('refresh').disabled=true;$('refresh').classList.add('spinning');$('refresh').setAttribute('aria-label','Atualizando programação');const results=await Promise.allSettled([request('/channels'),request('/sports')]);if(run!==state.request)return;results.forEach((result,i)=>{const k=i===0?'channels':'events';if(result.status==='fulfilled'&&Array.isArray(result.value)){state[k]=result.value.filter(x=>x&&x.id!=null&&typeof x==='object');delete state.errors[k];state.updated[k]=Date.now()}else state.errors[k]=true});state.loaded=true;state.busy=false;$('refresh').disabled=false;$('refresh').classList.remove('spinning');$('refresh').setAttribute('aria-label','Atualizar programação');updateConnection();render()}
-function navigate(view){if(state.view==='conta'&&view!=='conta')stopPairPolling();if(view!==state.view){vod.genre='Todos';vod.letter='Todos';vod.limit=36;}state.view=view;state.query='';$('search').value='';if(view!=='canais')state.category='Todos';if(location.hash!==`#${view}`)history.replaceState(null,'',`#${view}`);render();$('search').placeholder=state.view==='addons'?'Buscar nos seus addons':isVodView()?'Buscar '+(view==='filmes'?'filmes':'séries'):'Busque canais, programas e jogos';window.scrollTo({top:0,behavior:'instant'})}
+function navigate(view){if(view==='addons')view='conta';if(state.view==='conta'&&view!=='conta')stopPairPolling();if(view!==state.view){vod.genre='Todos';vod.letter='Todos';vod.limit=36;}state.view=view;state.query='';$('search').value='';if(view!=='canais')state.category='Todos';if(location.hash!==`#${view}`)history.replaceState(null,'',`#${view}`);render();$('search').placeholder=isVodView()?'Buscar '+(view==='filmes'?'filmes':'séries'):'Busque canais, programas e jogos';window.scrollTo({top:0,behavior:'instant'})}
 function toggleFavorite(type,id){const item=find(type,id);if(!item)return;const k=key(type,item),saved=state.favorites.has(k);saved?state.favorites.delete(k):state.favorites.add(k);persist('rdc.favorites',[...state.favorites]);render();toast(saved?`${name(item)} removido dos favoritos.`:`${name(item)} salvo nos favoritos.`)}
 function modalLock(){document.body.classList.toggle('modal-open',!!document.querySelector('dialog[open]'))}
 function setFrame(index){const embed=state.embeds[index];if(!embed)return;const frame=document.createElement('iframe');frame.src=safeURL(embed.embed_url);frame.title=`${name(state.selected)} — ${embed.provider||'Transmissão'}`;frame.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';frame.allowFullscreen=true;frame.referrerPolicy='strict-origin-when-cross-origin';$('player-stage').replaceChildren(frame);$('external-player').href=frame.src;$('server').value=String(index)}

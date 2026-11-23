@@ -1,4 +1,4 @@
-Minha TV 1.1.0 — Third-party notices
+Minha TV 1.2.0 — Third-party notices
 Bundled libraries: Supabase JavaScript SDK, hls.js, qrcode and dependencies.
 
 
