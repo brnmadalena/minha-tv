@@ -2,6 +2,14 @@
 
 [Abrir site](https://brnmadalena.github.io/minha-tv/) · [APK direto para o Downloader](https://brnmadalena.github.io/minha-tv/tv.apk) · [Versões e fontes](https://github.com/brnmadalena/minha-tv/releases)
 
+## Controle da TV — versão 1.3.0
+
+O canal abre em tela cheia, com reprodução automática nos players compatíveis. **OK** abre a lista no canal atual; **cima/baixo** percorre os canais sem interromper o vídeo; **OK** confirma a troca e fecha a lista. Com a lista fechada, **cima/baixo** troca diretamente de canal e **direita** abre as opções de transmissão. Play/Pause respeita a pausa.
+
+Nos catálogos, a seta direita entra no conteúdo. **Menu** abre Favoritar ou Remover de Continuar assistindo. Busca e campos abrem o teclado com **OK**. Voltar retorna ao item anterior.
+
+Testado no emulador Android TV com Globo, ESPN e SBT. A reprodução automática usa AndroidX WebKit e depende do suporte DOCUMENT_START_SCRIPT no WebView do aparelho; WebViews antigos mantêm o comportamento do provedor. Ainda sem validação física no Fire TV Stick 4K e na Xiaomi TV Box S.
+
 ## Biblioteca dos addons — versão 1.2.0
 
 1. No computador ou celular, entre na sua conta e abra **Minha conta > Meus addons > Adicionar addon**.
