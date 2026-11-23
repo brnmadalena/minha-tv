@@ -2,6 +2,14 @@
 
 [Abrir site](https://brnmadalena.github.io/minha-tv/) · [APK direto para o Downloader](https://brnmadalena.github.io/minha-tv/tv.apk) · [Versões e fontes](https://github.com/brnmadalena/minha-tv/releases)
 
+## Correção de reprodução — APK 1.5.1
+
+Diagnóstico feito diretamente na TV Android 12 do proprietário, com fontes da conta já instalada. O player passa a seguir os redirecionamentos de mídia preservando os links assinados. HTTP é permitido somente para os destinos exatos ultrap.top e 23.158.40.171, após autorização explícita do proprietário; não há liberação global nem para subdomínios. Nesses destinos, endereços e tokens dos vídeos podem ser observados na rede. Login, consultas de addons e legendas continuam em HTTPS e certificados inválidos continuam bloqueados.
+
+Fontes sem faixa de vídeo decodificável e carregamentos sem primeiro quadro passam à próxima alternativa. Ao trocar automaticamente, o app prioriza uma opção diferente da que falhou. Uma falha definitiva pausa o player e mantém os controles disponíveis.
+
+Imagem confirmada pelo proprietário na TV durante Homem de Ferro/BestCine. O menu retornou 65 legendas dos addons, com OpenSubtitles v3 em português do Brasil selecionado automaticamente. Capturas ADB dessa TV podem omitir a imagem do vídeo devido à camada de hardware. Falhas de servidor, incluindo 502, ainda dependem do provedor.
+
 ## Player nativo e legendas — APK 1.5.0
 
 Os filmes e episódios dos addons usam Media3/ExoPlayer, com MP4, MKV, HLS e DASH HTTPS conforme os codecs da TV. Fontes marcadas notWebReady e cabeçalhos informados pelo addon são tratados no APK. Consultas nativas aos addons evitam restrições CORS; uma falha tenta automaticamente outras fontes disponíveis. O Saimo e a TV ao vivo mantêm seus caminhos de reprodução.
