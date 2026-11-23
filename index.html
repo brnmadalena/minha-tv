@@ -31,6 +31,7 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--surface)
 @media(max-width:720px){.nav{grid-template-columns:repeat(6,minmax(0,1fr));gap:0}.nav button{font-size:.75rem;min-height:54px;gap:5px}.nav-full{display:none}.nav-short{display:inline}.sidebar{padding-left:8px;padding-right:8px}.nav button svg{height:20px;width:20px}.vod-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:22px 12px}.vod-row{grid-auto-columns:calc((100% - 24px)/3);gap:12px}.vod-card h3{font-size:.8125rem;margin-top:8px}.vod-card p{font-size:.75rem}.vod-heart{min-width:36px;min-height:36px;right:2px;top:2px}.vod-poster{border-radius:10px}.vod-card-play{display:none}.vod-hero{grid-template-columns:1fr 95px;padding:23px 20px;gap:15px}.vod-hero h2{font-size:1.6rem}.vod-hero-copy>p:not(.vod-eyebrow){font-size:.875rem}.vod-hero-poster span{display:none}.vod-hero .primary{font-size:.8125rem;padding:10px 13px;margin-top:16px}.vod-filter-bar{flex-wrap:wrap;gap:10px}.vod-filter-bar .select-wrap{min-width:140px;flex:1}.vod-poster-fallback{font-size:.75rem;padding:8px;gap:8px}.vod-dialog{width:100%;max-height:100dvh;margin:auto 0 0;border-radius:20px 20px 0 0}.vod-detail-info{padding:3px 18px 23px;grid-template-columns:85px minmax(0,1fr);gap:15px}.vod-detail-info h3{font-size:1.2rem}.vod-detail-actions{margin-top:16px;gap:9px}.vod-detail-actions .primary,.vod-detail-actions .button-secondary{font-size:.8125rem;padding:10px 12px}.vod-detail-info .muted{font-size:.875rem}.vod-episodes{padding:0 18px 22px}.vod-episode-list{grid-template-columns:1fr}.vod-player-options{padding:12px 18px}.vod-playback-status{padding:12px 18px}.vod-eyebrow{font-size:.75rem;letter-spacing:.04em}.vod-notice{display:block}.vod-notice .text-button{display:block}.vod-more{padding-bottom:15px}.vod-loading{padding-left:0;padding-right:0}}
 @media(max-width:360px){.vod-hero{grid-template-columns:1fr}.vod-hero-poster{display:none}.vod-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.vod-row{grid-auto-columns:calc((100% - 24px)/2.4)}.nav button{font-size:.6875rem}}
 @media(prefers-contrast:more){.vod-heart{background:#111b2d;border-color:#fff}.vod-hero{background:#13253b}.vod-card-play{opacity:1}}
+.vod-remove{position:absolute;top:5px;left:5px;display:grid;place-items:center;min-width:44px;min-height:44px;border:1px solid #ffffff50;border-radius:50%;background:#111b2de6;color:#fff}.vod-remove svg{width:18px;height:18px}.vod-remove:hover{background:#24374f}.vod-remove:active{background:#344d6b}
 
 </style>
 </head>
@@ -269,7 +270,7 @@ async function vodLetter(type, letter) {
 function vodCard(raw, continuing = false) {
   const item = enrichVod(raw), saved = vod.favorites.has(item.key), p = vod.progress[item.key];
   const title = item.title.replace(/\s*\(\d{4}\)\s*$/, '');
-  return `<article class="vod-card"><button class="vod-card-main" data-vod-open="${esc(item.key)}" aria-label="${continuing ? 'Continuar' : 'Ver'} ${esc(item.title)}"><div class="vod-poster"><span class="vod-poster-fallback" aria-hidden="true">${icon(item.type === 's' ? 'series' : 'film')}<span>${esc(title)}</span></span>${img(item.image, 'vod-poster-image')}<span class="vod-card-play">${icon('play')}</span>${p && p.duration > 0 ? `<div class="vod-card-progress" aria-hidden="true"><span style="width:${Math.min(100, p.time / p.duration * 100)}%"></span></div>` : ''}</div><h3>${esc(title)}</h3><p>${esc([item.year, continuing && p ? (p.season ? `T${p.season} · E${p.episode} · ${vodMinutes(p.time)}` : `Continuar em ${vodMinutes(p.time)}`) : item.genres?.[0] || (item.type === 's' ? 'Série' : 'Filme')].filter(Boolean).join(' · '))}</p></button><button class="vod-heart" data-vod-favorite="${esc(item.key)}" aria-pressed="${saved}" aria-label="${saved ? 'Remover dos' : 'Adicionar aos'} favoritos: ${esc(item.title)}">${icon('heart')}</button></article>`;
+  return `<article class="vod-card"><button class="vod-card-main" data-vod-open="${esc(item.key)}" aria-label="${continuing ? 'Continuar' : 'Ver'} ${esc(item.title)}"><div class="vod-poster"><span class="vod-poster-fallback" aria-hidden="true">${icon(item.type === 's' ? 'series' : 'film')}<span>${esc(title)}</span></span>${img(item.image, 'vod-poster-image')}<span class="vod-card-play">${icon('play')}</span>${p && p.duration > 0 ? `<div class="vod-card-progress" aria-hidden="true"><span style="width:${Math.min(100, p.time / p.duration * 100)}%"></span></div>` : ''}</div><h3>${esc(title)}</h3><p>${esc([item.year, continuing && p ? (p.season ? `T${p.season} · E${p.episode} · ${vodMinutes(p.time)}` : `Continuar em ${vodMinutes(p.time)}`) : item.genres?.[0] || (item.type === 's' ? 'Série' : 'Filme')].filter(Boolean).join(' · '))}</p></button>${continuing ? `<button class="vod-remove" data-vod-remove="${esc(item.key)}" aria-label="Remover de Continuar assistindo: ${esc(item.title)}" title="Remover de Continuar assistindo">${icon('close')}</button>` : ''}<button class="vod-heart" data-vod-favorite="${esc(item.key)}" aria-pressed="${saved}" aria-label="${saved ? 'Remover dos' : 'Adicionar aos'} favoritos: ${esc(item.title)}">${icon('heart')}</button></article>`;
 }
 function vodSavedSection() {
   const items = [...vod.favorites.values()];
@@ -289,7 +290,7 @@ function renderVod() {
   const genres = [...new Set(vod.search.filter(i => i.type === type).flatMap(i => (vod.meta.get(i.key) || vod.meta.get(VodCore.key(i.type, i.title)))?.genres || []))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
   const firstVisit = !q && vod.letter === 'Todos' && vod.genre === 'Todos' && vod.sort === 'popular';
   let html = vod.warnings.length ? `<div class="vod-notice" role="status">${esc(vod.warnings.join(' '))}<button class="text-button" data-vod-action="retry">Atualizar catálogo</button></div>` : '';
-  const continuing = Object.values(vod.progress).filter(p => p?.item?.type === type && p.time > 10 && p.duration > p.time + 20).sort((a, b) => b.updated - a.updated).slice(0, 6);
+  const continuing = Object.values(vod.progress).filter(p => p?.item?.type === type && !p.hidden && p.time > 10 && p.duration > p.time + 20).sort((a, b) => b.updated - a.updated).slice(0, 6);
   if (firstVisit && rows[0]?.items[0]) html += vodHero(rows[0].items[0]);
   if (firstVisit && continuing.length) html += section('Continuar assistindo', `<div class="vod-row">${continuing.map(p => vodCard(p.item, true)).join('')}</div>`);
   if (firstVisit && rows[0]) html += section(esc(rows[0].title), `<div class="vod-row">${rows[0].items.slice(0, 12).map(i => vodCard(i)).join('')}</div>`);
@@ -390,6 +391,15 @@ function setVodVideo(index, seek = 0) {
 function closeVod() { ++vod.token; stopVodVideo(); $('vod-dialog').close(); vod.selected = null; $('vod-dialog').innerHTML = ''; modalLock(); render(); }
 document.addEventListener('click', event => {
   const b = event.target.closest('button'); if (!b) return;
+  if (b.dataset.vodRemove) {
+    const k = b.dataset.vodRemove, entry = vod.progress[k]; if (!entry) return;
+    const position = [...document.querySelectorAll('[data-vod-remove]')].indexOf(b);
+    entry.hidden = true; persist('rdc.vod-progress', vod.progress); render();
+    const buttons = [...document.querySelectorAll('[data-vod-remove]')];
+    if (buttons.length) buttons[Math.min(position, buttons.length - 1)].focus({ preventScroll: true });
+    else { $('page-title').tabIndex = -1; $('page-title').focus({ preventScroll: true }); }
+    toast('Removido de Continuar assistindo.'); return;
+  }
   if (b.dataset.vodOpen) { openVod(b.dataset.vodOpen); return; }
   if (b.dataset.vodFavorite) { rememberVodFavorite(b.dataset.vodFavorite); return; }
   if (b.dataset.vodLetter) { vod.letter = b.dataset.vodLetter; vod.limit = 36; render(); return; }
