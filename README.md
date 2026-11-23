@@ -2,6 +2,10 @@
 
 [Abrir site](https://brnmadalena.github.io/minha-tv/) · [APK direto para o Downloader](https://brnmadalena.github.io/minha-tv/tv.apk) · [Versões e fontes](https://github.com/brnmadalena/minha-tv/releases)
 
+## APK 1.3.1
+
+Removido o logo fixo de canal que o app exibia no canto superior direito durante a transmissão.
+
 ## Controle da TV — versão 1.3.0
 
 O canal abre em tela cheia, com reprodução automática nos players compatíveis. **OK** abre a lista no canal atual; **cima/baixo** percorre os canais sem interromper o vídeo; **OK** confirma a troca e fecha a lista. Com a lista fechada, **cima/baixo** troca diretamente de canal e **direita** abre as opções de transmissão. Play/Pause respeita a pausa.
