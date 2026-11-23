@@ -2,6 +2,18 @@
 
 [Abrir site](https://brnmadalena.github.io/minha-tv/) · [APK direto para o Downloader](https://brnmadalena.github.io/minha-tv/tv.apk) · [Versões e fontes](https://github.com/brnmadalena/minha-tv/releases)
 
+## Player de filmes e séries — APK 1.4.0
+
+Filmes e episódios abrem em tela cheia, com controles próprios para o controle remoto:
+
+- OK pausa/reproduz. Esquerda/direita busca 10 segundos; toques seguidos acumulam o destino.
+- Baixo entra na fileira de controles. Cima mostra informações. Menu abre as opções.
+- Temporadas, episódios, próximo episódio, versões e fontes ficam no próprio player.
+- Trocar de fonte preserva a posição e a pausa. Voltar fecha primeiro as opções/controles e depois retorna à ficha do título.
+- Faixas de áudio e legendas aparecem quando a fonte e o WebView as disponibilizam. O modo Original preserva a proporção do vídeo; Preencher tela é opcional.
+
+Aplica-se ao catálogo Saimo e aos vídeos HTTPS compatíveis dos addons. O motor de reprodução continua sendo o WebView do aparelho.
+
 ## APK 1.3.1
 
 Removido o logo fixo de canal que o app exibia no canto superior direito durante a transmissão.
