@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Sua TV em um só lugar. Canais ao vivo, programação e agenda esportiva com a API Rei dos Canais.">
+<meta name="description" content="Sua TV em um só lugar. Canais ao vivo, filmes, séries, programação e agenda esportiva.">
 <meta name="color-scheme" content="light dark">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Rei dos Canais · Sua TV</title>
@@ -25,13 +25,20 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--surface)
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 @media(prefers-reduced-transparency:reduce){.sidebar{background:var(--surface);backdrop-filter:none}dialog::backdrop{background:#111827e8;backdrop-filter:none}.feature-favorite{background:#263648}}
 @media(prefers-contrast:more){:root{--muted:var(--text);--line:#7e8795}.sidebar{background:var(--surface);backdrop-filter:none}.channel-art{border:1px solid #78869b}.feature-shade{background:#07101dd9}dialog::backdrop{backdrop-filter:none}}
+.nav-short{display:none}.vod-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:25px 18px}.vod-row{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 90px)/6);gap:18px;overflow-x:auto;padding:2px 2px 14px;scroll-snap-type:x proximity;scrollbar-width:thin}.vod-row>.vod-card{scroll-snap-align:start}.vod-card{position:relative;min-width:0}.vod-card-main{display:block;padding:0;text-align:left;background:transparent;width:100%;border-radius:13px}.vod-poster{aspect-ratio:2/3;border-radius:13px;position:relative;overflow:hidden;background:var(--raised);border:1px solid var(--line)}.vod-poster-image{height:100%;width:100%;object-fit:cover;position:absolute;inset:0}.vod-poster-fallback{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;height:100%;padding:18px;color:var(--muted);text-align:center;font-size:.875rem}.vod-poster-fallback svg{height:32px;width:32px}.vod-card h3{font-size:.9375rem;line-height:1.4;margin-top:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.vod-card p{font-size:.8125rem;color:var(--muted);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.vod-heart{position:absolute;right:5px;top:5px;min-height:44px;min-width:44px;background:#111b2dcc;color:#fff;border-radius:50%;display:grid;place-items:center;border:1px solid #ffffff30}.vod-heart svg{height:18px;width:18px}.vod-heart[aria-pressed=true] svg,#vod-fav-detail[aria-pressed=true] svg{fill:currentColor}.vod-card-play{position:absolute;bottom:12px;right:12px;display:grid;place-items:center;border-radius:50%;width:40px;height:40px;background:#fff;color:#162331;opacity:0}.vod-card-play svg{width:20px}.vod-card-main:hover .vod-card-play,.vod-card-main:focus-visible .vod-card-play{opacity:1}.vod-card-progress{height:4px;background:#ffffff50;position:absolute;inset:auto 0 0}.vod-card-progress span{display:block;height:100%;background:#6aafff}.vod-hero{display:grid;grid-template-columns:1fr 200px;gap:35px;padding:30px 40px;background:#182c43;color:#fff;border-radius:20px;margin-bottom:30px;overflow:hidden;position:relative}.vod-hero-copy{align-self:center}.vod-eyebrow{color:var(--accent);font-size:.75rem;font-weight:650;letter-spacing:.07em;margin-bottom:10px}.vod-hero .vod-eyebrow{color:#b5d7ff}.vod-hero h2{font-size:clamp(1.8rem,3vw,2.7rem);line-height:1.07;letter-spacing:-.045em}.vod-hero-copy>p:not(.vod-eyebrow){font-size:.9375rem;color:#d2ddec;max-width:420px;margin-top:14px}.vod-hero .primary{margin-top:22px;background:#fff;color:#182c43}.vod-hero-poster{padding:0;border-radius:12px;background:#111e31;aspect-ratio:2/3;min-width:0;box-shadow:0 12px 28px #0004;position:relative;overflow:hidden;align-self:center}.vod-hero-poster img{width:100%;height:100%;object-fit:cover}.vod-hero-poster span{position:absolute;bottom:0;left:0;right:0;background:#0c1728ef;padding:9px 12px;color:#fff;text-align:left;font-size:.8125rem}.vod-filter-bar{display:flex;gap:12px;margin-bottom:15px}.vod-filter-bar .select-wrap{min-width:190px}.vod-letters{margin-bottom:8px}.vod-letters .chip{min-width:40px;padding-left:12px;padding-right:12px}.vod-total{font-size:.875rem;margin-top:6px}.vod-more{text-align:center;padding:26px 0 8px}.vod-more p{font-size:.8125rem;color:var(--muted);margin-top:10px}.vod-loading{padding:30px 20px;text-align:center}.vod-loading>svg{height:34px;width:34px;margin-bottom:15px;color:var(--accent)}.vod-loading h2{font-size:1.3rem}.vod-loading p{font-size:.9375rem;color:var(--muted);margin-top:8px}.vod-skeleton{aspect-ratio:2/3}.vod-notice{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:20px;font-size:.875rem;display:flex;gap:14px;align-items:center;justify-content:space-between}.vod-dialog{width:min(1000px,calc(100% - 40px))}.vod-detail-info{padding:6px 25px 28px;display:grid;grid-template-columns:145px minmax(0,1fr);gap:24px}.vod-detail-poster{aspect-ratio:2/3;border-radius:12px;background:var(--raised);overflow:hidden}.vod-detail-poster img{height:100%;width:100%;object-fit:cover}.vod-detail-info h3{font-size:1.6rem;letter-spacing:-.035em;line-height:1.2;margin-bottom:12px}.vod-detail-info .muted{font-size:.9375rem}.vod-detail-info>div:last-child{align-self:center}.vod-detail-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.vod-detail-loading{font-size:.875rem;color:var(--muted);margin-top:16px}.vod-episodes{padding:0 25px 25px}.vod-episodes .select-wrap{min-width:175px}.vod-episode-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-height:340px;overflow-y:auto;padding:3px}.vod-episode{border:1px solid var(--line);border-radius:12px;background:var(--surface);text-align:left;display:flex;align-items:center;gap:10px;padding:12px;min-width:0}.vod-episode[aria-pressed=true]{border-color:var(--accent);background:var(--selected)}.vod-episode-play{display:grid;place-items:center;border-radius:50%;background:var(--raised);height:32px;width:32px;flex-shrink:0}.vod-episode-play svg{height:17px;width:17px}.vod-episode strong{font-size:.875rem;display:block}.vod-episode small{font-size:.75rem;color:var(--muted);display:block;margin-top:3px}.vod-episode>span:last-child{min-width:0}.vod-episode small{overflow-wrap:anywhere}#vod-screen{background:#05070c;aspect-ratio:16/9;display:grid;place-items:center;color:#d9e1ed}#vod-video{display:block;height:100%;width:100%;max-height:70dvh;object-fit:contain;background:#000}.vod-player-options{padding:14px 25px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line)}.vod-player-options .select-wrap{flex:1;min-width:150px;max-width:230px}.vod-playback-status{padding:12px 25px;font-size:.875rem;color:var(--muted)}.vod-playback-error{color:var(--signal);background:var(--surface)}
+@media(max-width:1300px){.vod-grid{grid-template-columns:repeat(5,minmax(0,1fr))}.vod-row{grid-auto-columns:calc((100% - 72px)/5)}}
+@media(max-width:1050px){.vod-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.vod-row{grid-auto-columns:calc((100% - 54px)/4)}.vod-hero{grid-template-columns:1fr 155px;padding:28px;gap:20px}.vod-episode-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:720px){.nav{grid-template-columns:repeat(6,minmax(0,1fr));gap:0}.nav button{font-size:.75rem;min-height:54px;gap:5px}.nav-full{display:none}.nav-short{display:inline}.sidebar{padding-left:8px;padding-right:8px}.nav button svg{height:20px;width:20px}.vod-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:22px 12px}.vod-row{grid-auto-columns:calc((100% - 24px)/3);gap:12px}.vod-card h3{font-size:.8125rem;margin-top:8px}.vod-card p{font-size:.75rem}.vod-heart{min-width:36px;min-height:36px;right:2px;top:2px}.vod-poster{border-radius:10px}.vod-card-play{display:none}.vod-hero{grid-template-columns:1fr 95px;padding:23px 20px;gap:15px}.vod-hero h2{font-size:1.6rem}.vod-hero-copy>p:not(.vod-eyebrow){font-size:.875rem}.vod-hero-poster span{display:none}.vod-hero .primary{font-size:.8125rem;padding:10px 13px;margin-top:16px}.vod-filter-bar{flex-wrap:wrap;gap:10px}.vod-filter-bar .select-wrap{min-width:140px;flex:1}.vod-poster-fallback{font-size:.75rem;padding:8px;gap:8px}.vod-dialog{width:100%;max-height:100dvh;margin:auto 0 0;border-radius:20px 20px 0 0}.vod-detail-info{padding:3px 18px 23px;grid-template-columns:85px minmax(0,1fr);gap:15px}.vod-detail-info h3{font-size:1.2rem}.vod-detail-actions{margin-top:16px;gap:9px}.vod-detail-actions .primary,.vod-detail-actions .button-secondary{font-size:.8125rem;padding:10px 12px}.vod-detail-info .muted{font-size:.875rem}.vod-episodes{padding:0 18px 22px}.vod-episode-list{grid-template-columns:1fr}.vod-player-options{padding:12px 18px}.vod-playback-status{padding:12px 18px}.vod-eyebrow{font-size:.75rem;letter-spacing:.04em}.vod-notice{display:block}.vod-notice .text-button{display:block}.vod-more{padding-bottom:15px}.vod-loading{padding-left:0;padding-right:0}}
+@media(max-width:360px){.vod-hero{grid-template-columns:1fr}.vod-hero-poster{display:none}.vod-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.vod-row{grid-auto-columns:calc((100% - 24px)/2.4)}.nav button{font-size:.6875rem}}
+@media(prefers-contrast:more){.vod-heart{background:#111b2d;border-color:#fff}.vod-hero{background:#13253b}.vod-card-play{opacity:1}}
+
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Pular para o conteúdo</a>
 <svg aria-hidden="true" style="display:none" xmlns="http://www.w3.org/2000/svg"><defs>
 <symbol id="i-crown" viewBox="0 0 24 24"><path d="m3 7 5 4 4-7 4 7 5-4-2 12H5L3 7Z"/><path d="M6 22h12"/></symbol>
-<symbol id="i-play" viewBox="0 0 24 24"><path d="m9 5 11 7-11 7V5Z" fill="currentColor" stroke="none"/></symbol>
+<symbol id="i-film" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 3v18M17 3v18M3 8h4M3 16h4M17 8h4M17 16h4"/></symbol><symbol id="i-series" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="13" rx="3"/><path d="M6 5h12M9 2h6m-5 10 5 3-5 3v-6Z"/></symbol><symbol id="i-play" viewBox="0 0 24 24"><path d="m9 5 11 7-11 7V5Z" fill="currentColor" stroke="none"/></symbol>
 <symbol id="i-home" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="13" rx="3"/><path d="m9 22 3-4 3 4M9 2l3 3 3-3m-5 7 5 3-5 3V9Z"/></symbol>
 <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></symbol>
 <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 11h18m-13 5h2m4 0h2"/></symbol>
@@ -51,10 +58,12 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--surface)
  <a class="brand" href="#inicio"><span class="brand-mark"><svg aria-hidden="true"><use href="#i-crown"/></svg></span><span class="brand-name">Rei dos Canais<span>Sua TV, em um só lugar.</span></span></a>
  <p class="nav-label">Explorar</p>
  <nav class="nav">
-  <button data-view="inicio" aria-current="page"><svg aria-hidden="true"><use href="#i-home"/></svg><span>Assistir agora</span></button>
+  <button data-view="inicio" aria-current="page"><svg aria-hidden="true"><use href="#i-home"/></svg><span class="nav-full">Assistir agora</span><span class="nav-short">Agora</span></button>
   <button data-view="canais"><svg aria-hidden="true"><use href="#i-grid"/></svg><span>Canais</span><span class="count" id="channel-count">—</span></button>
+  <button data-view="filmes"><svg aria-hidden="true"><use href="#i-film"/></svg><span>Filmes</span></button>
+  <button data-view="series"><svg aria-hidden="true"><use href="#i-series"/></svg><span>Séries</span></button>
   <button data-view="agenda"><svg aria-hidden="true"><use href="#i-calendar"/></svg><span>Agenda</span></button>
-  <button data-view="favoritos"><svg aria-hidden="true"><use href="#i-heart"/></svg><span>Favoritos</span><span class="count" id="favorite-count">0</span></button>
+  <button data-view="favoritos"><svg aria-hidden="true"><use href="#i-heart"/></svg><span class="nav-full">Favoritos</span><span class="nav-short">Salvos</span><span class="count" id="favorite-count">0</span></button>
  </nav>
  <div class="sidebar-bottom">
   <div class="library-note"><svg aria-hidden="true"><use href="#i-heart"/></svg>O que você gosta,<br>sempre por perto.<br><small>Salve seus canais favoritos.</small></div>
@@ -71,7 +80,7 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--surface)
   <div class="heading"><div><h1 id="page-title">Assistir agora</h1><p id="page-subtitle">Encontre seu próximo bom momento.</p></div><span class="date" id="today"></span></div>
   <div class="banner" id="api-notice" role="status" hidden><p></p><button class="text-button" data-action="refresh">Tentar novamente</button></div>
   <div id="content" aria-busy="true"><div class="skeleton feature"></div><div class="loading-grid" aria-label="Carregando canais"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div></div>
-  <footer class="page-footer"><span>Rei dos Canais <span aria-hidden="true">·</span> Sua programação, em um só lugar.</span><span>Dados: <a href="https://reidoscanais.im/api" target="_blank" rel="noopener noreferrer">API Rei dos Canais</a> <span aria-hidden="true">·</span> Horários de Brasília</span></footer>
+  <footer class="page-footer"><span>Rei dos Canais <span aria-hidden="true">·</span> Sua programação, em um só lugar.</span><span>Catálogos: <a href="https://filmes-saimo.pages.dev/indice.txt" target="_blank" rel="noopener noreferrer">Saimo</a> · <a href="https://reidoscanais.im/api" target="_blank" rel="noopener noreferrer">API Rei dos Canais</a> <span aria-hidden="true">·</span> Horários de Brasília</span></footer>
  </main>
 </div>
 <dialog class="player-dialog" id="player" aria-labelledby="player-title">
@@ -81,6 +90,7 @@ dialog{border:1px solid var(--line);border-radius:22px;background:var(--surface)
  <p class="player-help" id="player-help">O player é fornecido por terceiros. Se não carregar, troque o servidor ou use “Abrir transmissão”.</p>
  <div class="player-details" id="player-details"></div>
 </dialog>
+<dialog class="vod-dialog" id="vod-dialog" aria-labelledby="vod-dialog-title"></dialog>
 <dialog class="settings-dialog" id="settings" aria-labelledby="settings-title">
  <div class="dialog-header"><h2 id="settings-title">Conexão e dados</h2><button class="icon-button" data-action="close-settings" aria-label="Fechar configurações"><svg aria-hidden="true"><use href="#i-close"/></svg></button></div>
  <form class="settings-body" id="settings-form"><p>A programação é atualizada a cada 5 minutos. Seus favoritos ficam salvos apenas neste navegador.</p><label for="api-url">Endereço da API</label><input id="api-url" type="url" required placeholder="https://api.reidoscanais.im" spellcheck="false"><p class="helper">Use o endereço base, sem /channels ou /sports. A API precisa permitir acesso pelo navegador (CORS).</p><p class="settings-error" id="settings-error" role="alert" hidden></p><div class="actions"><button type="button" class="button-secondary" id="restore-api">Restaurar padrão</button><button class="primary" type="submit">Salvar conexão</button></div></form>
@@ -100,7 +110,7 @@ function read(key,fallback){try{return JSON.parse(localStorage.getItem(key))??fa
 function persist(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true}catch{toast('O navegador bloqueou o armazenamento. As alterações valem nesta sessão.');return false}}
 let base=read('rdc.api',DEFAULT_API);if(typeof base!=='string'||!safeURL(base))base=DEFAULT_API;
 let stored=read('rdc.favorites',[]);
-const state={view:['inicio','canais','agenda','favoritos'].includes(location.hash.slice(1))?location.hash.slice(1):'inicio',query:'',category:'Todos',eventStatus:'all',eventDate:'all',channels:[],events:[],favorites:new Set(Array.isArray(stored)?stored.filter(k=>typeof k==='string'):[]),busy:false,loaded:false,errors:{},updated:{},selected:null,embeds:[],request:0};
+const state={view:['inicio','canais','agenda','favoritos','filmes','series'].includes(location.hash.slice(1))?location.hash.slice(1):'inicio',query:'',category:'Todos',eventStatus:'all',eventDate:'all',channels:[],events:[],favorites:new Set(Array.isArray(stored)?stored.filter(k=>typeof k==='string'):[]),busy:false,loaded:false,errors:{},updated:{},selected:null,embeds:[],request:0};
 let toastTimer,searchTimer,playerRequest=0,lastAttempt=0;
 const timeFormat=new Intl.DateTimeFormat('pt-BR',{hour:'2-digit',minute:'2-digit',timeZone:'America/Sao_Paulo'});
 const dateFormat=new Intl.DateTimeFormat('pt-BR',{day:'2-digit',month:'short',timeZone:'America/Sao_Paulo'});
@@ -133,29 +143,306 @@ function quickChannel(c){const p=currentProgram(c);return `<button class="quick-
 function feature(){const c=state.channels.find(c=>String(c.id)==='globo'&&programActive(currentProgram(c)))||sortChannels(state.channels).find(c=>programActive(currentProgram(c)))||sortChannels(state.channels)[0];if(!c)return '';const p=currentProgram(c),active=programActive(p),next=c.epg?.next;return `<div class="hero-grid"><article class="feature">${img(p?.image,'feature-image',false)}<div class="feature-shade"></div><div class="feature-content"><div class="feature-tag"><span class="live-pill"><span class="dot"></span>TV AO VIVO</span><span>NA SUA TELA</span></div><p class="feature-channel">${esc(name(c))} <span aria-hidden="true">·</span> ${esc(c.category||'TV ao vivo')}</p><h2>${esc(active?p.title:name(c))}</h2><p class="feature-description">${esc(active?p.description||'Acompanhe a programação ao vivo.':c.description||'Sua programação favorita está a um play de distância.')}</p><div class="feature-buttons"><button class="primary" data-open="channel" data-id="${esc(c.id)}">${icon('play')}Assistir agora</button>${favoriteButton('channel',c,'feature-favorite').replace('class="favorite feature-favorite"','class="feature-favorite"')}</div></div><div class="program-strip">${icon('clock')}<span>${next?.title?`A seguir: ${esc(next.title)}`:active?`Agora: ${esc(p.title)}`:'Programação ao vivo'}</span>${next?.start_time?`<span class="time">${time(next.start_time)}</span>`:active?`<span class="time">até ${time(p.end_time)}</span>`:''}</div></article><aside class="on-next"><div class="on-next-title"><h3>Também no ar</h3>${icon('signal')}</div><p>Um novo programa a cada play.</p>${sortChannels(state.channels).filter(x=>x.id!==c.id).slice(0,3).map(quickChannel).join('')}<button class="text-button" data-view="canais">Explorar todos os canais</button></aside></div>`}
 function sortedEvents(events){return [...events].sort((a,b)=>{const rank={live:0,upcoming:1,finished:2};const diff=(rank[a.status]??3)-(rank[b.status]??3);return diff||(a.status==='finished'?(eventTimestamp(b)||0)-(eventTimestamp(a)||0):(eventTimestamp(a)||0)-(eventTimestamp(b)||0))})}
 function agendaControls(){const dates=[...new Set(state.events.map(eventTimestamp).filter(Boolean).map(t=>dateKeyFormat.format(new Date(t*1000))))].sort();return `<div class="event-dates"><div class="filters" aria-label="Status dos eventos">${[['all','Todos'],['live','Ao vivo'],['upcoming','Em breve'],['finished','Encerrados']].map(([k,v])=>`<button class="chip" data-status="${k}" aria-pressed="${state.eventStatus===k}">${v}</button>`).join('')}</div>${dates.length?`<div class="select-wrap"><select id="event-date" aria-label="Data dos eventos"><option value="all">Todas as datas</option>${dates.map(d=>`<option value="${d}" ${state.eventDate===d?'selected':''}>${esc(dateFormat.format(new Date(d+'T12:00:00-03:00')))}</option>`).join('')}</select></div>`:''}</div>`}
+const VodCore = (() => {
+  const normalize = value => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('pt-BR').trim();
+  const lines = text => String(text).replace(/^\uFEFF/, '').split(/\r?\n/).filter(line => line.trim() && !/^#(?: |$)/.test(line));
+  const yearOf = title => String(title).match(/\((\d{4})\)\s*$/)?.[1] || '';
+  const key = (type, title, year = '') => `${type}:${normalize(title.replace(/\s*\(\d{4}\)\s*$/, ''))}|${year || yearOf(title)}`;
+  function url(value) { try { const u = new URL(value); return ['https:', 'http:'].includes(u.protocol) && !u.username && !u.password ? u.href : ''; } catch { return ''; } }
+  function index(text) {
+    const bases = new Map(), letters = [];
+    for (const line of lines(text)) {
+      const base = line.match(/^base:\s*(\d+)\s+(\S+)/);
+      if (base) { const address = url(base[2]); if (address) bases.set(+base[1], address); continue; }
+      const p = line.split('\t');
+      if (/^[A-Z#]$/.test(p[0]) && p.length >= 3) letters.push({ letter: p[0], films: Math.max(0, +p[1] || 0), series: Math.max(0, +p[2] || 0) });
+    }
+    if (!letters.length) throw new Error('Índice do catálogo sem títulos.');
+    return { bases, letters };
+  }
+  function sources(value, bases) {
+    return String(value || '').split(',').map(ref => {
+      ref = ref.trim(); const match = ref.match(/^(\d+):(.+)$/);
+      if (match) { const base = bases.get(+match[1]); if (!base || base.includes('desativado.invalid')) return ''; ref = base + match[2] + (match[2].includes('.') ? '' : '.mp4'); }
+      return url(ref);
+    }).filter(Boolean).filter((value, i, array) => array.indexOf(value) === i);
+  }
+  function films(text, letter, bases) {
+    return lines(text).flatMap(line => {
+      const [title, ...rest] = line.split('\t'), versions = {};
+      for (const col of rest) { const m = col.match(/^(dub|leg)=(.*)$/); if (m) { const list = sources(m[2], bases); if (list.length) versions[m[1]] = list; } }
+      return title && Object.keys(versions).length ? [{ type: 'f', title, year: yearOf(title), letter, versions, key: key('f', title) }] : [];
+    });
+  }
+  function series(text, letter) {
+    return lines(text).map(line => { const p = line.split('\t'); return { type: 's', title: p[0], year: p[1] || '', chunk: +p[2] || 0, count: +p[3] || 0, letter, key: key('s', p[0], p[1]) }; }).filter(item => item.title);
+  }
+  function episodes(text, item, bases) {
+    let selected = false; const result = new Map();
+    for (const line of lines(text)) {
+      if (line.startsWith('@')) { const [title, year] = line.slice(1).split('\t'); selected = key('s', title, year) === item.key; continue; }
+      if (!selected) continue;
+      const [season, episode, version, refs] = line.split('\t');
+      if (!+season || !+episode || !['dub', 'leg'].includes(version)) continue;
+      const list = sources(refs, bases); if (!list.length) continue;
+      const id = `${+season}:${+episode}`;
+      if (!result.has(id)) result.set(id, { season: +season, episode: +episode, versions: {} });
+      result.get(id).versions[version] = list;
+    }
+    return [...result.values()].sort((a, b) => a.season - b.season || a.episode - b.episode);
+  }
+  function search(text) {
+    return lines(text).flatMap(line => { const [title, type, letter, year = ''] = line.split('\t'); return ['f', 's'].includes(type) && title ? [{ title, type, letter, year: year || yearOf(title), key: key(type, title, year) }] : []; });
+  }
+  function highlights(text) {
+    let imageBase = '', row; const rows = [];
+    for (const line of lines(text)) {
+      if (line.startsWith('capa:')) { imageBase = line.slice(5).trim(); continue; }
+      const p = line.split('\t');
+      if (p[0] === 'fila') { row = { title: p[1], items: [] }; rows.push(row); continue; }
+      if (!row || !['f', 's'].includes(p[0])) continue;
+      const [type, title, letter, year, image] = p;
+      row.items.push({ type, title, letter, year: year || yearOf(title), image: url(image?.startsWith('/') ? imageBase + image : image), key: key(type, title, year) });
+    }
+    return rows;
+  }
+  function metadata(text) {
+    let imageBase = 'https://image.tmdb.org/t/p/w342'; const result = new Map();
+    for (const line of lines(text)) {
+      if (line.startsWith('capa:')) { imageBase = line.slice(5).trim(); continue; }
+      const [type, title, tmdb, image, genres = ''] = line.split('\t'); if (!['f', 's'].includes(type)) continue;
+      result.set(key(type, title), { image: url(image?.startsWith('/') ? imageBase + image : image), genres: genres.split(',').map(x => x.trim()).filter(Boolean), tmdb: /^\d+$/.test(tmdb) ? tmdb : '' });
+    }
+    return result;
+  }
+  function details(text) {
+    const result = new Map();
+    for (const line of lines(text)) { const [type, title, year, rating, age, popularity] = line.split('\t'); if (['f', 's'].includes(type)) result.set(key(type, title), { year, rating: +rating || 0, age, popularity: +popularity || 0 }); }
+    return result;
+  }
+  return { normalize, lines, key, yearOf, url, index, sources, films, series, episodes, search, highlights, metadata, details };
+})();
+if (typeof module !== 'undefined') module.exports = VodCore;
+
+const VOD_BASE = 'https://filmes-saimo.pages.dev/';
+const initialVodFavorites = read('rdc.vod-favorites', []);
+const initialVodProgress = read('rdc.vod-progress', {});
+const vod = { ready: false, busy: false, error: '', warnings: [], index: null, rows: [], search: [], meta: new Map(), details: new Map(), chunks: new Map(), registered: new Map(), genre: 'Todos', letter: 'Todos', sort: 'popular', limit: 36, favorites: new Map(Array.isArray(initialVodFavorites) ? initialVodFavorites.filter(x => x && typeof x.key === 'string').map(x => [x.key, x]) : []), progress: initialVodProgress && typeof initialVodProgress === 'object' && !Array.isArray(initialVodProgress) ? initialVodProgress : {}, selected: null, episodes: [], episode: null, season: 1, version: 'dub', source: 0, sources: [], token: 0, playbackToken: 0, savedAt: 0, stallTimer: null };
+const isVodView = () => state.view === 'filmes' || state.view === 'series';
+const vodKind = () => state.view === 'series' ? 's' : 'f';
+const vodSnapshot = item => ({ key: item.key, type: item.type, title: item.title, year: item.year || '', letter: item.letter, image: item.image || '' });
+const vodMinutes = seconds => { const n = Math.max(0, Math.floor(seconds || 0)); return `${Math.floor(n / 60)}:${String(n % 60).padStart(2, '0')}`; };
+const vodNumber = value => Number(value || 0).toLocaleString('pt-BR');
+async function vodText(file) {
+  const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 22000);
+  try { const r = await fetch(VOD_BASE + file, { signal: controller.signal, credentials: 'omit' }); if (!r.ok) throw new Error('Catálogo indisponível'); return await r.text(); } finally { clearTimeout(timer); }
+}
+function enrichVod(item) {
+  const m = vod.meta.get(item.key) || vod.meta.get(VodCore.key(item.type, item.title)) || {};
+  const d = vod.details.get(item.key) || vod.details.get(VodCore.key(item.type, item.title)) || {};
+  const result = { ...item, ...m, ...d, image: item.image || m.image || '', year: item.year || d.year || VodCore.yearOf(item.title), genres: m.genres || [] };
+  vod.registered.set(result.key, result); return result;
+}
+async function ensureVod(force = false) {
+  if (vod.busy || (vod.ready && !force)) return;
+  vod.busy = true; vod.error = ''; vod.warnings = [];
+  const files = ['indice.txt', 'destaques.txt', 'busca.txt', 'fichas.txt', 'detalhes.txt'];
+  const results = await Promise.allSettled(files.map(vodText));
+  try {
+    if (results[0].status !== 'fulfilled') throw new Error();
+    vod.index = VodCore.index(results[0].value);
+    if (results[1].status === 'fulfilled') vod.rows = VodCore.highlights(results[1].value);
+    if (results[2].status === 'fulfilled') vod.search = [...new Map(VodCore.search(results[2].value).map(x => [x.key, x])).values()];
+    if (results[3].status === 'fulfilled') vod.meta = VodCore.metadata(results[3].value);
+    if (results[4].status === 'fulfilled') vod.details = VodCore.details(results[4].value);
+    if (!vod.search.length) { const letter = vod.index.letters.find(x => x.films)?.letter; if (letter) vod.search = await vodLetter('f', letter); vod.warnings.push('A busca completa está indisponível. Tente explorar pelas letras.'); }
+    results.forEach((r, i) => { if (r.status === 'rejected' && i >= 3) vod.warnings.push(i === 3 ? 'Algumas capas e gêneros não puderam ser carregados.' : 'Algumas informações dos títulos não puderam ser carregadas.'); });
+    vod.ready = true;
+  } catch { vod.error = 'Não foi possível carregar o catálogo. Verifique sua conexão e tente novamente.'; }
+  finally { vod.busy = false; if (isVodView() || state.view === 'favoritos') render(); }
+}
+async function vodLetter(type, letter) {
+  const file = `${type === 'f' ? 'filmes' : 'series'}-${encodeURIComponent(letter)}.txt`;
+  if (!vod.chunks.has(file)) vod.chunks.set(file, vodText(file).then(text => type === 'f' ? VodCore.films(text, letter, vod.index.bases) : VodCore.series(text, letter)).catch(error => { vod.chunks.delete(file); throw error; }));
+  return vod.chunks.get(file);
+}
+function vodCard(raw, continuing = false) {
+  const item = enrichVod(raw), saved = vod.favorites.has(item.key), p = vod.progress[item.key];
+  const title = item.title.replace(/\s*\(\d{4}\)\s*$/, '');
+  return `<article class="vod-card"><button class="vod-card-main" data-vod-open="${esc(item.key)}" aria-label="${continuing ? 'Continuar' : 'Ver'} ${esc(item.title)}"><div class="vod-poster"><span class="vod-poster-fallback" aria-hidden="true">${icon(item.type === 's' ? 'series' : 'film')}<span>${esc(title)}</span></span>${img(item.image, 'vod-poster-image')}<span class="vod-card-play">${icon('play')}</span>${p && p.duration > 0 ? `<div class="vod-card-progress" aria-hidden="true"><span style="width:${Math.min(100, p.time / p.duration * 100)}%"></span></div>` : ''}</div><h3>${esc(title)}</h3><p>${esc([item.year, continuing && p ? (p.season ? `T${p.season} · E${p.episode} · ${vodMinutes(p.time)}` : `Continuar em ${vodMinutes(p.time)}`) : item.genres?.[0] || (item.type === 's' ? 'Série' : 'Filme')].filter(Boolean).join(' · '))}</p></button><button class="vod-heart" data-vod-favorite="${esc(item.key)}" aria-pressed="${saved}" aria-label="${saved ? 'Remover dos' : 'Adicionar aos'} favoritos: ${esc(item.title)}">${icon('heart')}</button></article>`;
+}
+function vodSavedSection() {
+  const items = [...vod.favorites.values()];
+  return items.length ? section('Filmes e séries favoritos', `<div class="vod-grid">${items.map(i => vodCard(i)).join('')}</div>`) : '';
+}
+function vodHero(item) {
+  item = enrichVod(item);
+  return `<article class="vod-hero"><div class="vod-hero-copy"><p class="vod-eyebrow">NO SEU TEMPO</p><h2>O próximo play<br>é uma boa história.</h2><p>Filmes e séries para escolher, salvar e assistir quando quiser.</p><button class="primary" data-vod-open="${esc(item.key)}">${icon('play')}Explorar ${item.type === 's' ? 'série' : 'filme'}</button></div><button class="vod-hero-poster" data-vod-open="${esc(item.key)}" aria-label="Ver ${esc(item.title)}">${img(item.image, '', false)}<span>${esc(item.title)}</span></button></article>`;
+}
+function renderVod() {
+  if (!vod.ready && !vod.error) { ensureVod(); return `<div class="vod-loading" role="status">${icon('film')}<h2>Preparando suas próximas histórias</h2><p>Carregando o catálogo de filmes e séries…</p></div><div class="vod-grid">${Array.from({ length: 6 }, () => '<div class="skeleton vod-skeleton"></div>').join('')}</div>`; }
+  if (vod.error) return empty('O catálogo não carregou', vod.error, 'film', '<button class="primary" data-vod-action="retry">Tentar novamente</button>');
+  const type = vodKind(), q = norm(state.query.trim()), rows = vod.rows.map(r => ({ ...r, items: r.items.filter(i => i.type === type) })).filter(r => r.items.length);
+  const raw = vod.search.filter(i => i.type === type && (vod.letter === 'Todos' || i.letter === vod.letter) && (!q || norm(i.title).includes(q)));
+  let items = raw.map(enrichVod).filter(i => vod.genre === 'Todos' || i.genres.includes(vod.genre));
+  items.sort((a, b) => vod.sort === 'az' ? a.title.localeCompare(b.title, 'pt-BR') : vod.sort === 'recent' ? (+b.year || 0) - (+a.year || 0) || a.title.localeCompare(b.title, 'pt-BR') : (b.popularity || 0) - (a.popularity || 0) || a.title.localeCompare(b.title, 'pt-BR'));
+  const genres = [...new Set(vod.search.filter(i => i.type === type).flatMap(i => (vod.meta.get(i.key) || vod.meta.get(VodCore.key(i.type, i.title)))?.genres || []))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  const firstVisit = !q && vod.letter === 'Todos' && vod.genre === 'Todos' && vod.sort === 'popular';
+  let html = vod.warnings.length ? `<div class="vod-notice" role="status">${esc(vod.warnings.join(' '))}<button class="text-button" data-vod-action="retry">Atualizar catálogo</button></div>` : '';
+  const continuing = Object.values(vod.progress).filter(p => p?.item?.type === type && p.time > 10 && p.duration > p.time + 20).sort((a, b) => b.updated - a.updated).slice(0, 6);
+  if (firstVisit && rows[0]?.items[0]) html += vodHero(rows[0].items[0]);
+  if (firstVisit && continuing.length) html += section('Continuar assistindo', `<div class="vod-row">${continuing.map(p => vodCard(p.item, true)).join('')}</div>`);
+  if (firstVisit && rows[0]) html += section(esc(rows[0].title), `<div class="vod-row">${rows[0].items.slice(0, 12).map(i => vodCard(i)).join('')}</div>`);
+  const total = vod.index.letters.reduce((n, l) => n + (type === 'f' ? l.films : l.series), 0);
+  html += `<section class="section"><div class="section-head"><div><h2>${q ? 'Resultados da busca' : type === 'f' ? 'Todos os filmes' : 'Todas as séries'}</h2><p class="muted vod-total">${vodNumber(total)} títulos no índice do catálogo</p></div></div><div class="vod-filter-bar"><div class="select-wrap"><select id="vod-genre" aria-label="Gênero"><option value="Todos">Todos os gêneros</option>${genres.map(g => `<option ${vod.genre === g ? 'selected' : ''}>${esc(g)}</option>`).join('')}</select></div><div class="select-wrap"><select id="vod-sort" aria-label="Ordenar títulos"><option value="popular" ${vod.sort === 'popular' ? 'selected' : ''}>Mais populares</option><option value="recent" ${vod.sort === 'recent' ? 'selected' : ''}>Mais recentes</option><option value="az" ${vod.sort === 'az' ? 'selected' : ''}>A–Z</option></select></div></div><div class="filters vod-letters" aria-label="Letra inicial"><button class="chip" data-vod-letter="Todos" aria-pressed="${vod.letter === 'Todos'}">Todos</button>${vod.index.letters.filter(l => type === 'f' ? l.films : l.series).map(l => `<button class="chip" data-vod-letter="${l.letter}" aria-pressed="${vod.letter === l.letter}">${l.letter}</button>`).join('')}</div><p class="results-count" role="status">${vodNumber(items.length)} ${type === 'f' ? (items.length===1?'filme':'filmes') : (items.length===1?'série':'séries')}${q ? ` para “${esc(state.query)}”` : ''}</p>${items.length ? `<div class="vod-grid">${items.slice(0, vod.limit).map(i => vodCard(i)).join('')}</div>${items.length > vod.limit ? `<div class="vod-more"><button class="button-secondary" data-vod-action="more">Mostrar mais títulos</button><p>${vodNumber(Math.min(vod.limit, items.length))} de ${vodNumber(items.length)}</p></div>` : ''}` : empty('Nenhum título encontrado', 'Tente outro nome, gênero ou letra inicial.', 'search', '<button class="text-button" data-vod-action="clear">Limpar filtros</button>')}</section>`;
+  return html;
+}
+function rememberVodFavorite(k) {
+  const item = vod.registered.get(k) || vod.favorites.get(k); if (!item) return;
+  const wasSaved = vod.favorites.has(k); if (wasSaved) vod.favorites.delete(k); else vod.favorites.set(k, vodSnapshot(item));
+  persist('rdc.vod-favorites', [...vod.favorites.values()]); render();
+  if (vod.selected?.key === k && $('vod-fav-detail')) { $('vod-fav-detail').setAttribute('aria-pressed', String(!wasSaved)); $('vod-fav-detail').innerHTML = icon('heart') + (wasSaved ? 'Salvar favorito' : 'Salvo nos favoritos'); }
+  toast(wasSaved ? 'Título removido dos favoritos.' : 'Título salvo nos favoritos.');
+}
+async function resolveVodItem(item) {
+  const list = await vodLetter(item.type, item.letter);
+  return list.find(i => i.key === item.key) || list.find(i => norm(i.title) === norm(item.title)) || list.find(i => VodCore.key(i.type, i.title).split('|')[0] === VodCore.key(item.type, item.title).split('|')[0] && (!i.year || !item.year || String(i.year) === String(item.year)));
+}
+function vodDialogHTML(item) {
+  const saved = vod.favorites.has(item.key), progress = vod.progress[item.key];
+  const meta = [item.year, item.rating > 0 ? `Nota ${item.rating.toFixed(1).replace('.', ',')}` : '', item.age ? `Classificação ${item.age}` : ''].filter(Boolean);
+  return `<div class="dialog-header"><div><h2 id="vod-dialog-title">${esc(item.title)}</h2><p>${item.type === 's' ? 'Série' : 'Filme'} · Sob demanda</p></div><button class="icon-button" data-vod-action="close" aria-label="Fechar filme ou série">${icon('close')}</button></div><div id="vod-screen" hidden></div><div class="vod-player-options" id="vod-playback-controls" hidden><div class="select-wrap"><select id="vod-version" aria-label="Versão do vídeo"></select></div><div class="select-wrap"><select id="vod-source" aria-label="Fonte do vídeo"></select></div><button class="button-secondary" data-vod-action="retry-video">${icon('refresh')}Tentar novamente</button><button class="button-secondary" id="vod-next" data-vod-action="next" hidden>Próximo episódio</button></div><p class="vod-playback-status" id="vod-playback-status" role="status" hidden></p><div class="vod-detail-info"><div class="vod-detail-poster">${img(item.image, '', false)}</div><div><p class="vod-eyebrow">${esc(meta.join(' · ')) || 'SUA PRÓXIMA HISTÓRIA'}</p><h3>${esc(item.title)}</h3><p class="muted">${esc((item.genres || []).join(' · ')) || (item.type === 's' ? 'Escolha uma temporada e um episódio para começar.' : 'Escolha a versão para assistir no seu tempo.')}</p><div class="vod-detail-actions">${item.type === 'f' ? `<button class="primary" id="vod-start-film" data-vod-action="play" disabled>${icon('play')}${progress?.time > 10 ? `Continuar em ${vodMinutes(progress.time)}` : 'Assistir filme'}</button>` : progress?.season ? `<button class="primary" id="vod-resume-series" data-vod-action="resume-series" disabled>${icon('play')}Continuar T${progress.season} · E${progress.episode}</button>` : ''}<button class="button-secondary" id="vod-fav-detail" data-vod-favorite="${esc(item.key)}" aria-pressed="${saved}">${icon('heart')}${saved ? 'Salvo nos favoritos' : 'Salvar favorito'}</button></div><p class="vod-detail-loading" id="vod-detail-loading" role="status">Carregando ${item.type === 's' ? 'episódios' : 'fontes de vídeo'}…</p></div></div><section id="vod-episodes" class="vod-episodes" hidden></section>`;
+}
+async function openVod(k) {
+  const raw = vod.registered.get(k) || vod.favorites.get(k); if (!raw) return;
+  if ($('player').open) closePlayer();
+  const item = enrichVod(raw), token = ++vod.token; vod.selected = item; vod.episode = null; vod.episodes = [];
+  $('vod-dialog').innerHTML = vodDialogHTML(item); $('vod-dialog').showModal(); document.body.classList.add('modal-open');
+  try {
+    if (!vod.ready) { await ensureVod(); if (!vod.ready) throw new Error(); }
+    const full = await resolveVodItem(item); if (token !== vod.token || !$('vod-dialog').open) return;
+    if (!full) throw new Error();
+    vod.selected = enrichVod({ ...item, ...full, image: item.image });
+    $('vod-dialog').innerHTML = vodDialogHTML(vod.selected);
+    if (item.type === 's') {
+      const file = `series-${encodeURIComponent(full.letter)}-${full.chunk}.txt`;
+      if (!vod.chunks.has(file)) vod.chunks.set(file, vodText(file).catch(error => { vod.chunks.delete(file); throw error; }));
+      const text = await vod.chunks.get(file); if (token !== vod.token || !$('vod-dialog').open) return;
+      vod.episodes = VodCore.episodes(text, full, vod.index.bases);
+      if (!vod.episodes.length) throw new Error();
+      vod.season = vod.progress[item.key]?.season || vod.episodes[0].season;
+      if (!vod.episodes.some(e => e.season === vod.season)) vod.season = vod.episodes[0].season;
+      $('vod-episodes').hidden = false; renderVodEpisodes(); if ($('vod-resume-series')) $('vod-resume-series').disabled = false;
+    } else $('vod-start-film').disabled = false;
+    $('vod-detail-loading').hidden = true;
+  } catch { if (token === vod.token && $('vod-detail-loading')) $('vod-detail-loading').textContent = 'As fontes deste título não puderam ser carregadas. Feche e tente novamente.'; }
+}
+function renderVodEpisodes() {
+  const seasons = [...new Set(vod.episodes.map(e => e.season))];
+  $('vod-episodes').innerHTML = `<div class="section-head"><h3>Episódios</h3><div class="select-wrap"><select id="vod-season" aria-label="Temporada">${seasons.map(s => `<option value="${s}" ${s === vod.season ? 'selected' : ''}>Temporada ${s}</option>`).join('')}</select></div></div><div class="vod-episode-list">${vod.episodes.filter(e => e.season === vod.season).map(e => `<button class="vod-episode" data-vod-episode="${e.season}:${e.episode}" aria-pressed="${vod.episode?.season === e.season && vod.episode?.episode === e.episode}"><span class="vod-episode-play">${icon('play')}</span><span><strong>Episódio ${e.episode}</strong><small>Temporada ${e.season} · ${Object.keys(e.versions).map(v => v === 'dub' ? 'Dublado' : 'Legendado').join(' / ')}</small></span></button>`).join('')}</div>`;
+}
+function playbackVersions() { return (vod.episode || vod.selected)?.versions || {}; }
+function vodPlaybackStatus(text, failure = false) { const el = $('vod-playback-status'); if (!el) return; el.hidden = !text; el.textContent = text; el.classList.toggle('vod-playback-error', failure); }
+function persistVodProgress() {
+  const video = $('vod-video'); if (!video || !vod.selected || !Number.isFinite(video.duration) || video.duration <= 0 || video.currentTime < 1) return;
+  const p = { item: vodSnapshot(vod.selected), time: video.currentTime, duration: video.duration, season: vod.episode?.season || 0, episode: vod.episode?.episode || 0, version: vod.version, updated: Date.now() };
+  vod.progress[vod.selected.key] = p;
+  const entries = Object.entries(vod.progress).sort((a, b) => b[1].updated - a[1].updated).slice(0, 100);
+  vod.progress = Object.fromEntries(entries); persist('rdc.vod-progress', vod.progress);
+}
+function stopVodVideo() {
+  clearTimeout(vod.stallTimer); ++vod.playbackToken;
+  const video = $('vod-video'); if (video) { persistVodProgress(); video.pause(); video.removeAttribute('src'); video.load(); video.remove(); }
+}
+function chooseVodSources() {
+  const versions = playbackVersions(), names = Object.keys(versions);
+  if (!names.includes(vod.version)) vod.version = names.includes('dub') ? 'dub' : names[0];
+  vod.sources = versions[vod.version] || [];
+  $('vod-version').innerHTML = names.map(v => `<option value="${v}" ${v === vod.version ? 'selected' : ''}>${v === 'dub' ? 'Dublado' : 'Legendado'}</option>`).join('');
+  $('vod-source').innerHTML = vod.sources.map((src, i) => `<option value="${i}">Fonte ${i + 1}${src.startsWith('http:') ? ' · requer HTTPS' : ''}</option>`).join('');
+  $('vod-next').hidden = !vod.episode || vod.episodes.indexOf(vod.episode) >= vod.episodes.length - 1;
+}
+function startVod(episode = null, resume = true) {
+  stopVodVideo(); vod.episode = episode;
+  const p = vod.progress[vod.selected.key]; vod.version = p?.version || 'dub'; vod.source = 0; chooseVodSources();
+  if (episode) { vod.season = episode.season; renderVodEpisodes(); }
+  const sameEpisode = !episode || (p?.season === episode.season && p?.episode === episode.episode);
+  const seek = resume && sameEpisode && p?.time > 10 && p.duration > p.time + 20 ? p.time : 0;
+  setVodVideo(Math.max(0, vod.sources.findIndex(src => src.startsWith('https:'))), seek);
+}
+function setVodVideo(index, seek = 0) {
+  stopVodVideo(); const token = vod.playbackToken, src = vod.sources[index]; vod.source = index;
+  $('vod-screen').hidden = false; $('vod-playback-controls').hidden = false; $('vod-source').value = String(index);
+  if (!src || src.startsWith('http:')) { $('vod-screen').innerHTML = `<div class="player-message">${icon('info')}<h3>Esta fonte não está disponível em HTTPS</h3><p>Selecione outra fonte para assistir neste navegador.</p></div>`; vodPlaybackStatus('O servidor precisa oferecer uma conexão HTTPS para reproduzir neste site.', true); return; }
+  const video = document.createElement('video'); video.id = 'vod-video'; video.controls = true; video.playsInline = true; video.preload = 'metadata'; if (vod.selected.image) video.poster = vod.selected.image;
+  $('vod-screen').replaceChildren(video); vodPlaybackStatus('Carregando vídeo…');
+  let resumed = false;
+  video.addEventListener('loadedmetadata', () => { if (!resumed && seek > 0 && Number.isFinite(video.duration) && seek < video.duration - 10) { video.currentTime = seek; resumed = true; } });
+  video.addEventListener('playing', () => { clearTimeout(vod.stallTimer); vodPlaybackStatus(''); });
+  video.addEventListener('canplay', () => { clearTimeout(vod.stallTimer); vodPlaybackStatus(''); });
+  video.addEventListener('timeupdate', () => { if (Date.now() - vod.savedAt > 5000) { vod.savedAt = Date.now(); persistVodProgress(); } });
+  video.addEventListener('pause', persistVodProgress); video.addEventListener('ended', () => { persistVodProgress(); if (vod.episode && !$('vod-next').hidden) vodPlaybackStatus('Episódio concluído. Toque em “Próximo episódio” para continuar.'); });
+  video.addEventListener('error', () => { if (token !== vod.playbackToken) return; clearTimeout(vod.stallTimer); if (index + 1 < vod.sources.length) { vodPlaybackStatus('Tentando outra fonte…'); setVodVideo(index + 1, seek); } else vodPlaybackStatus('O servidor não disponibilizou um vídeo compatível nesta conexão. Tente outra versão ou outra fonte. O catálogo pode continuar acessível mesmo quando o vídeo está indisponível.', true); });
+  vod.stallTimer = setTimeout(() => { if (token === vod.playbackToken && video.readyState < 2) vodPlaybackStatus('O vídeo está demorando para responder. Você pode tentar novamente ou escolher outra fonte.', true); }, 25000);
+  video.src = src; video.play().catch(() => { if (token === vod.playbackToken && !video.error) vodPlaybackStatus('Toque no botão de reprodução do vídeo para começar.'); });
+  $('vod-screen').scrollIntoView({ block: 'nearest', behavior: 'instant' });
+}
+function closeVod() { ++vod.token; stopVodVideo(); $('vod-dialog').close(); vod.selected = null; $('vod-dialog').innerHTML = ''; modalLock(); render(); }
+document.addEventListener('click', event => {
+  const b = event.target.closest('button'); if (!b) return;
+  if (b.dataset.vodOpen) { openVod(b.dataset.vodOpen); return; }
+  if (b.dataset.vodFavorite) { rememberVodFavorite(b.dataset.vodFavorite); return; }
+  if (b.dataset.vodLetter) { vod.letter = b.dataset.vodLetter; vod.limit = 36; render(); return; }
+  if (b.dataset.vodEpisode) { const [s, e] = b.dataset.vodEpisode.split(':').map(Number); const ep = vod.episodes.find(x => x.season === s && x.episode === e); if (ep) startVod(ep); return; }
+  switch (b.dataset.vodAction) {
+    case 'close': closeVod(); break;
+    case 'retry': ensureVod(true); render(); break;
+    case 'more': { vod.limit += 36; const previous = document.querySelectorAll('.vod-grid .vod-card').length; render(); document.querySelectorAll('.vod-grid .vod-card-main')[previous]?.focus({ preventScroll: true }); break; }
+    case 'clear': vod.genre = 'Todos'; vod.letter = 'Todos'; state.query = ''; $('search').value = ''; vod.limit = 36; render(); break;
+    case 'play': startVod(); break;
+    case 'resume-series': { const p = vod.progress[vod.selected.key]; const episode = vod.episodes.find(e => e.season === p?.season && e.episode === p?.episode); if (episode) startVod(episode); break; }
+    case 'retry-video': { const position = $('vod-video')?.currentTime || 0; setVodVideo(vod.source, position); break; }
+    case 'next': { const next = vod.episodes[vod.episodes.indexOf(vod.episode) + 1]; if (next) startVod(next, false); break; }
+  }
+});
+document.addEventListener('change', e => {
+  if (e.target.id === 'vod-genre') { vod.genre = e.target.value; vod.limit = 36; render(); }
+  if (e.target.id === 'vod-sort') { vod.sort = e.target.value; vod.limit = 36; render(); }
+  if (e.target.id === 'vod-season') { vod.season = +e.target.value; renderVodEpisodes(); }
+  if (e.target.id === 'vod-source') setVodVideo(+e.target.value, $('vod-video')?.currentTime || 0);
+  if (e.target.id === 'vod-version') { const position = $('vod-video')?.currentTime || 0; vod.version = e.target.value; chooseVodSources(); setVodVideo(0, position); }
+});
+$('vod-dialog').addEventListener('cancel', e => { e.preventDefault(); closeVod(); });
+$('vod-dialog').addEventListener('click', e => { if (e.target !== $('vod-dialog')) return; const r = e.target.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) closeVod(); });
+document.addEventListener('visibilitychange', () => { if (document.hidden) persistVodProgress(); });
+window.addEventListener('pagehide', persistVodProgress);
+
 function render(){
  const searching=!!state.query;
- const titles={inicio:['Assistir agora','Encontre seu próximo bom momento.'],canais:['Todos os canais','Escolha o canal. O próximo play é seu.'],agenda:['Agenda esportiva','Os jogos e as competições em um só lugar.'],favoritos:['Seus favoritos','Tudo o que você gosta, sempre por perto.']};
+ $('search').placeholder=isVodView()?'Buscar '+(state.view==='filmes'?'filmes':'séries'):'Busque canais, programas e jogos';
+ const titles={inicio:['Assistir agora','Encontre seu próximo bom momento.'],canais:['Todos os canais','Escolha o canal. O próximo play é seu.'],agenda:['Agenda esportiva','Os jogos e as competições em um só lugar.'],favoritos:['Seus favoritos','Tudo o que você gosta, sempre por perto.'],filmes:['Filmes','Boas histórias, no seu tempo.'],series:['Séries','Encontre sua próxima maratona.']};
  $('page-title').textContent=searching?'Sua busca':titles[state.view][0];$('page-subtitle').textContent=searching?`Resultados para “${state.query}”`:titles[state.view][1];
  document.querySelectorAll('.nav [data-view]').forEach(b=>{if(b.dataset.view===state.view&&!searching)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
- $('channel-count').textContent=state.loaded?state.channels.length:'—';$('favorite-count').textContent=state.favorites.size;$('clear-search').hidden=!searching;
- if(!state.loaded)return;
+ $('channel-count').textContent=state.loaded?state.channels.length:'—';$('favorite-count').textContent=state.favorites.size+vod.favorites.size;$('clear-search').hidden=!searching;
+ if(!state.loaded&&!isVodView())return;
  let html='';
- if(searching){const channels=sortChannels(state.channels.filter(matches)),events=sortedEvents(state.events.filter(matches));html=`<p class="results-count" role="status">${channels.length} ${channels.length===1?'canal':'canais'} e ${events.length} ${events.length===1?'evento encontrado':'eventos encontrados'}</p>`;if(channels.length)html+=section('Canais',channelBody(channels));if(events.length)html+=section('Eventos',`<div class="event-grid">${events.map(eventCard).join('')}</div>`);if(!channels.length&&!events.length)html+=empty('Não encontramos esse programa','Busque pelo nome de um canal, programa, time ou competição.','search','<button class="text-button" data-action="clear-search">Limpar busca</button>')}
+ if(isVodView()){html=renderVod();}
+ else if(searching){const channels=sortChannels(state.channels.filter(matches)),events=sortedEvents(state.events.filter(matches));html=`<p class="results-count" role="status">${channels.length} ${channels.length===1?'canal':'canais'} e ${events.length} ${events.length===1?'evento encontrado':'eventos encontrados'}</p>`;if(channels.length)html+=section('Canais',channelBody(channels));if(events.length)html+=section('Eventos',`<div class="event-grid">${events.map(eventCard).join('')}</div>`);if(!channels.length&&!events.length)html+=empty('Não encontramos esse programa','Busque pelo nome de um canal, programa, time ou competição.','search','<button class="text-button" data-action="clear-search">Limpar busca</button>')}
  else if(state.view==='inicio'){const channels=filteredChannels();html=feature()+section('No ar agora',categoryChips()+channelBody(channels.slice(0,8)),'<button class="text-button" data-view="canais">Ver todos</button>',state.channels.length);const events=sortedEvents(state.events);if(events.length)html+=section('O esporte não para',`<div class="event-grid">${events.slice(0,3).map(eventCard).join('')}</div>`,'<button class="text-button" data-view="agenda">Ver agenda</button>')}
  else if(state.view==='canais'){const channels=filteredChannels();html=categoryChips()+`<p class="results-count">${channels.length} ${channels.length===1?'canal disponível':'canais disponíveis'}</p>`+channelBody(channels)}
  else if(state.view==='agenda'){const events=sortedEvents(state.events.filter(e=>(state.eventStatus==='all'||e.status===state.eventStatus)&&(state.eventDate==='all'||(eventTimestamp(e)&&dateKeyFormat.format(new Date(eventTimestamp(e)*1000))===state.eventDate))));html=agendaControls()+`<p class="results-count">${events.length} ${events.length===1?'evento':'eventos'} <span aria-hidden="true">·</span> Horários de Brasília</p>`+(events.length?`<div class="event-grid section">${events.map(eventCard).join('')}</div>`:empty(state.errors.events?'Agenda indisponível':'Nenhum evento neste filtro',state.errors.events?'Não foi possível consultar a agenda. Tente atualizar a programação.':'Selecione outro status ou outra data para explorar a agenda.','calendar',`<button class="text-button" data-action="${state.errors.events?'refresh':'reset-events'}">${state.errors.events?'Tentar novamente':'Ver todos os eventos'}</button>`))}
- else {const channels=sortChannels(state.channels.filter(c=>state.favorites.has(key('channel',c)))),events=sortedEvents(state.events.filter(e=>state.favorites.has(key('event',e))));if(channels.length)html+=section('Canais favoritos',channelBody(channels));if(events.length)html+=section('Eventos salvos',`<div class="event-grid">${events.map(eventCard).join('')}</div>`);if(!html)html=empty('Seu próximo favorito está por aí',state.favorites.size?'Os favoritos salvos não estão no catálogo disponível agora. Atualize ou explore outros canais.':'Toque no coração de um canal ou evento. Ele aparecerá aqui, pronto para o próximo play.','heart','<button class="primary" data-view="canais">Explorar canais</button>')}
- const focused=document.activeElement;const restore=focused&&$('content').contains(focused)?['data-category','data-status','data-favorite','data-action'].map(a=>[a,focused.getAttribute(a)]).find(x=>x[1]!==null):null;const focusId=focused?.dataset?.id;
+ else {const channels=sortChannels(state.channels.filter(c=>state.favorites.has(key('channel',c)))),events=sortedEvents(state.events.filter(e=>state.favorites.has(key('event',e))));if(channels.length)html+=section('Canais favoritos',channelBody(channels));if(events.length)html+=section('Eventos salvos',`<div class="event-grid">${events.map(eventCard).join('')}</div>`);html+=vodSavedSection();if(!html)html=empty('Seu próximo favorito está por aí',state.favorites.size?'Os favoritos salvos não estão no catálogo disponível agora. Atualize ou explore outros canais.':'Toque no coração de um canal ou evento. Ele aparecerá aqui, pronto para o próximo play.','heart','<button class="primary" data-view="canais">Explorar canais</button>')}
+ const focused=document.activeElement;const focusElementId=$('content').contains(focused)?focused.id:null;const restore=focused&&$('content').contains(focused)?['data-category','data-status','data-favorite','data-action','data-vod-letter','data-vod-favorite','data-vod-action'].map(a=>[a,focused.getAttribute(a)]).find(x=>x[1]!==null):null;const focusId=focused?.dataset?.id;
  $('content').innerHTML=html;$('content').setAttribute('aria-busy','false');
+ if(focusElementId)document.getElementById(focusElementId)?.focus({preventScroll:true});
  if(restore){const found=[...$('content').querySelectorAll(`[${restore[0]}]`)].find(b=>b.getAttribute(restore[0])===restore[1]&&(!focusId||b.dataset.id===focusId));found?.focus({preventScroll:true})}
 }
 function updateConnection(){const failed=Object.keys(state.errors),good=Object.keys(state.updated).length;const status=failed.length?'error':good?'ok':'loading';$('connection').dataset.status=status;$('connection-label').textContent=failed.length?(good?'Conexão parcial':'Sem conexão'):'Conectado';const latest=Math.max(0,...Object.values(state.updated));$('last-update').textContent=latest?`Atualizado às ${time(latest/1000)}`:'Tente atualizar a programação';const notice=$('api-notice');notice.hidden=!failed.length;if(failed.length)notice.querySelector('p').textContent=failed.map(k=>{const label=k==='channels'?'canais':'agenda';const previous=state.updated[k];return `Não foi possível atualizar ${label}${previous?`; exibindo dados de ${time(previous/1000)}`:''}.`}).join(' ')+' Verifique a conexão ou o endereço da API nas configurações.'}
 async function request(path){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),18000);try{const response=await fetch(base.replace(/\/+$/,'')+path,{signal:controller.signal,cache:'no-store',credentials:'omit'});if(!response.ok)throw new Error(`HTTP ${response.status}`);const json=await response.json();if(json.success===false||!('data'in json))throw new Error('Resposta inválida');return json.data}finally{clearTimeout(timer)}}
 async function load(){if(state.busy)return;state.busy=true;lastAttempt=Date.now();const run=++state.request;$('refresh').disabled=true;$('refresh').classList.add('spinning');$('refresh').setAttribute('aria-label','Atualizando programação');const results=await Promise.allSettled([request('/channels'),request('/sports')]);if(run!==state.request)return;results.forEach((result,i)=>{const k=i===0?'channels':'events';if(result.status==='fulfilled'&&Array.isArray(result.value)){state[k]=result.value.filter(x=>x&&x.id!=null&&typeof x==='object');delete state.errors[k];state.updated[k]=Date.now()}else state.errors[k]=true});state.loaded=true;state.busy=false;$('refresh').disabled=false;$('refresh').classList.remove('spinning');$('refresh').setAttribute('aria-label','Atualizar programação');updateConnection();render()}
-function navigate(view){state.view=view;state.query='';$('search').value='';if(view!=='canais')state.category='Todos';if(location.hash!==`#${view}`)history.replaceState(null,'',`#${view}`);render();window.scrollTo({top:0,behavior:'instant'})}
+function navigate(view){if(view!==state.view){vod.genre='Todos';vod.letter='Todos';vod.limit=36;}state.view=view;state.query='';$('search').value='';if(view!=='canais')state.category='Todos';if(location.hash!==`#${view}`)history.replaceState(null,'',`#${view}`);render();$('search').placeholder=isVodView()?'Buscar '+(view==='filmes'?'filmes':'séries'):'Busque canais, programas e jogos';window.scrollTo({top:0,behavior:'instant'})}
 function toggleFavorite(type,id){const item=find(type,id);if(!item)return;const k=key(type,item),saved=state.favorites.has(k);saved?state.favorites.delete(k):state.favorites.add(k);persist('rdc.favorites',[...state.favorites]);render();toast(saved?`${name(item)} removido dos favoritos.`:`${name(item)} salvo nos favoritos.`)}
-function modalLock(){document.body.classList.toggle('modal-open',$('player').open||$('settings').open)}
+function modalLock(){document.body.classList.toggle('modal-open',$('player').open||$('settings').open||$('vod-dialog').open)}
 function setFrame(index){const embed=state.embeds[index];if(!embed)return;const frame=document.createElement('iframe');frame.src=safeURL(embed.embed_url);frame.title=`${name(state.selected)} — ${embed.provider||'Transmissão'}`;frame.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';frame.allowFullscreen=true;frame.referrerPolicy='strict-origin-when-cross-origin';$('player-stage').replaceChildren(frame);$('external-player').href=frame.src;$('server').value=String(index)}
 function renderPlayer(type,item){state.selected=item;state.embeds=getEmbeds(item);$('player-title').textContent=name(item);$('player-category').textContent=[item.category,type==='event'?item.competition:'TV ao vivo'].filter(Boolean).join(' · ');const p=currentProgram(item),next=item.epg?.next,active=programActive(p);$('player-toolbar').hidden=!state.embeds.length;$('player-help').hidden=!state.embeds.length;
  if(state.embeds.length){$('server').innerHTML=state.embeds.map((e,i)=>`<option value="${i}">${esc(e.provider||`Servidor ${i+1}`)}${e.quality?` · ${esc(e.quality)}`:''}</option>`).join('');setFrame(0)}else $('player-stage').innerHTML=`<div class="player-message">${icon('calendar')}<h3>${type==='event'&&item.status==='upcoming'?'A transmissão ainda não foi disponibilizada':'Nenhum servidor disponível'}</h3><p>Confira novamente mais tarde. Os links são fornecidos pela API Rei dos Canais.</p></div>`;
@@ -166,7 +453,7 @@ function closePlayer(){++playerRequest;$('player-stage').replaceChildren();state
 document.addEventListener('error',e=>{if(e.target instanceof HTMLImageElement&&e.target.hasAttribute('data-fallback'))e.target.remove() },true);
 document.addEventListener('load',e=>{if(e.target instanceof HTMLImageElement&&e.target.classList.contains('channel-logo')){const fallback=e.target.previousElementSibling;if(fallback?.classList.contains('logo-fallback'))fallback.style.visibility='hidden'}},true);
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.view){navigate(b.dataset.view);return}if(b.dataset.favorite){toggleFavorite(b.dataset.favorite,b.dataset.id);return}if(b.dataset.open){openPlayer(b.dataset.open,b.dataset.id);return}if(b.dataset.category){state.category=b.dataset.category;render();return}if(b.dataset.status){state.eventStatus=b.dataset.status;render();return}switch(b.dataset.action){case'refresh':load();break;case'settings':$('api-url').value=base;$('settings-error').hidden=true;$('settings').showModal();modalLock();break;case'close-settings':$('settings').close();modalLock();break;case'close-player':closePlayer();break;case'reset':state.category='Todos';state.query='';$('search').value='';render();break;case'reset-events':state.eventStatus='all';state.eventDate='all';render();break;case'clear-search':clearSearch();break}});
-$('search').addEventListener('input',()=>{clearTimeout(searchTimer);searchTimer=setTimeout(()=>{state.query=$('search').value.trim();render()},160)});
+$('search').addEventListener('input',()=>{clearTimeout(searchTimer);searchTimer=setTimeout(()=>{state.query=$('search').value.trim();vod.limit=36;render()},160)});
 function clearSearch(){clearTimeout(searchTimer);$('search').value='';state.query='';render();$('search').focus()}
 $('clear-search').addEventListener('click',clearSearch);
 document.addEventListener('change',e=>{if(e.target.id==='event-date'){state.eventDate=e.target.value;render()}if(e.target.id==='server')setFrame(Number(e.target.value))});
@@ -175,11 +462,11 @@ for(const id of ['player','settings'])$(id).addEventListener('click',e=>{if(e.ta
 $('fullscreen').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else if($('player-stage').requestFullscreen)await $('player-stage').requestFullscreen();else toast('Use o botão de tela cheia dentro do player.')}catch{toast('Use o botão de tela cheia dentro do player.')}});
 $('restore-api').addEventListener('click',()=>{$('api-url').value=DEFAULT_API;$('settings-error').hidden=true});
 $('settings-form').addEventListener('submit',e=>{e.preventDefault();if(state.busy){$('settings-error').textContent='Aguarde a atualização terminar antes de trocar a conexão.';$('settings-error').hidden=false;return}try{const url=new URL($('api-url').value.trim());if(!['http:','https:'].includes(url.protocol)||url.username||url.password||url.search||url.hash||/^\/(channels|sports|search|health)(\/|$)/.test(url.pathname))throw new Error();base=url.href.replace(/\/+$/,'');persist('rdc.api',base);state.channels=[];state.events=[];state.errors={};state.updated={};$('settings').close();render();load()}catch{$('settings-error').textContent='Informe um endereço base válido, como https://api.reidoscanais.im.';$('settings-error').hidden=false}});
-document.addEventListener('keydown',e=>{if(e.key==='/'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)&&!$('player').open&&!$('settings').open){e.preventDefault();$('search').focus()}if(e.key==='Escape'&&!$('player').open&&!$('settings').open&&state.query)clearSearch()});
-window.addEventListener('hashchange',()=>{const v=location.hash.slice(1);if(['inicio','canais','agenda','favoritos'].includes(v))navigate(v)});
+document.addEventListener('keydown',e=>{if(e.key==='/'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)&&!$('player').open&&!$('settings').open&&!$('vod-dialog').open){e.preventDefault();$('search').focus()}if(e.key==='Escape'&&!$('player').open&&!$('settings').open&&!$('vod-dialog').open&&state.query)clearSearch()});
+window.addEventListener('hashchange',()=>{const v=location.hash.slice(1);if(['inicio','canais','agenda','favoritos','filmes','series'].includes(v))navigate(v)});
 document.querySelector('.brand').addEventListener('click',e=>{e.preventDefault();navigate('inicio')});
 function updateDate(){$('today').textContent=new Intl.DateTimeFormat('pt-BR',{weekday:'long',day:'numeric',month:'long',timeZone:'America/Sao_Paulo'}).format(new Date())}
-updateDate();render();load();setInterval(()=>{if(!document.hidden)load()},300000);setInterval(()=>{updateDate();if(!document.hidden&&!$('player').open&&!$('settings').open&&document.activeElement?.id!=='search')render()},60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-lastAttempt>=300000)load()});window.addEventListener('online',()=>load());
+updateDate();render();load();setInterval(()=>{if(!document.hidden)load()},300000);setInterval(()=>{updateDate();if(!document.hidden&&!$('player').open&&!$('settings').open&&!$('vod-dialog').open&&document.activeElement?.id!=='search')render()},60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-lastAttempt>=300000)load()});window.addEventListener('online',()=>load());
 })();
 </script>
 </body>
