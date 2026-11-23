@@ -2,17 +2,16 @@
 
 [Abrir site](https://brnmadalena.github.io/minha-tv/) · [APK direto para o Downloader](https://brnmadalena.github.io/minha-tv/tv.apk) · [Versões e fontes](https://github.com/brnmadalena/minha-tv/releases)
 
-## Player de filmes e séries — APK 1.4.0
+## Player nativo e legendas — APK 1.5.0
 
-Filmes e episódios abrem em tela cheia, com controles próprios para o controle remoto:
+Os filmes e episódios dos addons usam Media3/ExoPlayer, com MP4, MKV, HLS e DASH HTTPS conforme os codecs da TV. Fontes marcadas notWebReady e cabeçalhos informados pelo addon são tratados no APK. Consultas nativas aos addons evitam restrições CORS; uma falha tenta automaticamente outras fontes disponíveis. O Saimo e a TV ao vivo mantêm seus caminhos de reprodução.
 
-- OK pausa/reproduz. Esquerda/direita busca 10 segundos; toques seguidos acumulam o destino.
-- Baixo entra na fileira de controles. Cima mostra informações. Menu abre as opções.
-- Temporadas, episódios, próximo episódio, versões e fontes ficam no próprio player.
-- Trocar de fonte preserva a posição e a pausa. Voltar fecha primeiro as opções/controles e depois retorna à ficha do título.
-- Faixas de áudio e legendas aparecem quando a fonte e o WebView as disponibilizam. O modo Original preserva a proporção do vídeo; Preencher tela é opcional.
+- OK pausa/reproduz; esquerda/direita busca 10 segundos; baixo entra nos controles; Menu abre opções.
+- Legendas reúne faixas embutidas e addons de legendas instalados, incluindo OpenSubtitles. A consulta usa o filme ou episódio e, quando fornecidos, nome, hash e tamanho do arquivo.
+- Em Legendas > Preferências: idioma principal/secundário, tipo normal/SDH/forçadas, prioridade, aparência, tamanho, posição e sincronização externa. Os padrões ficam por conta nesta TV; também há acesso em Minha conta.
+- Fontes, áudio, temporadas e episódios são escolhidos no player. A troca de fonte preserva a posição; o progresso continua integrado à conta.
 
-Aplica-se ao catálogo Saimo e aos vídeos HTTPS compatíveis dos addons. O motor de reprodução continua sendo o WebView do aparelho.
+Validado com fontes de teste no emulador Android TV e resposta real do OpenSubtitles v3. Ainda sem teste físico no Fire TV Stick ou Xiaomi Box. O app depende da disponibilidade dos provedores e dos codecs do aparelho. Torrents sem URL de vídeo, DRM e arquivos compactados continuam sem suporte.
 
 ## APK 1.3.1
 
@@ -45,7 +44,7 @@ Compatibilidade pretendida: Fire TV Stick 4K com Fire OS e Xiaomi TV Box S, Andr
 
 ## Limites atuais
 
-- Reprodução de fontes MP4/HLS HTTPS compatíveis com o WebView. Fontes torrent, DRM, arquivos compactados e fontes que exigem cabeçalhos especiais precisam de outro motor e não são reproduzidas por esta versão.
+- No navegador/Saimo, o suporte depende do WebView. No APK, addons usam Media3 e codecs do aparelho. Torrents sem URL de vídeo, DRM e arquivos compactados não são reproduzidos.
 - Cadastro sem confirmação de e-mail por escolha do proprietário. Recuperação por e-mail depende de configurar SMTP.
 - A reprodução depende dos servidores, dos codecs do aparelho e da conectividade dos provedores. Ainda é necessário validar fisicamente nos aparelhos.
 

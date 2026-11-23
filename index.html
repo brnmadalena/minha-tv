@@ -488,13 +488,19 @@ const AddonCore = (() => {
   }
   function stream(value) {
     if (!value || typeof value !== 'object') return null;
-    const result = { label: text(value.name || 'Reproduzir', 120), title: text(value.title || value.description, 600), url: '', reason: '' };
-    if (value.infoHash || value.nzbUrl || value.rarUrls || value.zipUrls || value['7zipUrls']) result.reason = 'Esta fonte precisa de um motor de streaming adicional.';
-    else if (value.behaviorHints?.notWebReady || value.behaviorHints?.proxyHeaders || value.behaviorHints?.drm) result.reason = 'Esta fonte precisa de um player ou servidor adicional.';
+    const hints=value.behaviorHints||{};
+    const result = { label: text(value.name || 'Reproduzir', 120), title: text(value.title || value.description, 600), url: '', nativeUrl:'', reason: '', headers:requestHeaders(hints.proxyHeaders?.request), filename:text(hints.filename,1000), videoHash:/^[a-f0-9]{16}$/i.test(hints.videoHash||'')?hints.videoHash:'', videoSize:Number.isSafeInteger(hints.videoSize)&&hints.videoSize>0?hints.videoSize:0, bingeGroup:text(hints.bingeGroup,300), subtitles:subtitles(value.subtitles) };
+    if (!https(value.url) && (value.infoHash || value.nzbUrl || value.rarUrls || value.zipUrls || value['7zipUrls'])) result.reason = 'Esta fonte precisa de um motor de streaming adicional.';
+    else if (value.behaviorHints?.drm) result.reason = 'Esta fonte precisa de um player ou servidor adicional.';
     else if (!https(value.url)) result.reason = 'Esta fonte não fornece um vídeo HTTPS compatível.';
-    else result.url = https(value.url);
+    else { result.nativeUrl=https(value.url);if(hints.notWebReady||hints.proxyHeaders)result.reason='Esta fonte requer o player nativo da TV.';else result.url=result.nativeUrl; }
     return result;
   }
+  function requestHeaders(value){
+    if(!value||typeof value!=='object'||Array.isArray(value))return {};
+    return Object.fromEntries(Object.entries(value).filter(([k,v])=>/^(user-agent|referer|origin|cookie|authorization|accept|accept-language|x-[a-z0-9-]+)$/i.test(k)&&typeof v==='string'&&v.length<=8000&&!/[\r\n]/.test(v)).slice(0,24));
+  }
+  function subtitles(value){return (Array.isArray(value)?value:[]).slice(0,500).filter(s=>s&&https(s.url)).map((s,i)=>({id:text(String(s.id||i),200),url:https(s.url),lang:text(s.lang||s.language||'und',40),label:text(s.label,300),headers:requestHeaders(s.headers)}));}
   function catalogChoices(installed, type = '', query = '') {
     return installed.filter(a => a.enabled !== false && https(a.url)).flatMap(addon => (addon.manifest.catalogs || [])
       .filter(c => ['movie','series'].includes(c.type) && (!type || c.type === type))
@@ -511,7 +517,7 @@ const AddonCore = (() => {
     return extras;
   }
   function id(type, contentId) { return `${type}:${contentId}`; }
-  return { https, transport, manifest, supports, resourceURL, meta, stream, id, catalogChoices, catalogExtras };
+  return { https, transport, manifest, supports, resourceURL, meta, stream, subtitles, requestHeaders, id, catalogChoices, catalogExtras };
 })();
 if (typeof module === 'object' && module.exports) module.exports = AddonCore;
 
@@ -715,6 +721,7 @@ setInterval(() => { if (account.user && !document.hidden) syncPersonal(); }, 600
 
 const addons = { installed: new Map(), favorites: new Map(), progress: {}, registered: new Map(), preview: null, previewToken: 0, selected: null, episode: null, sources: [], contentToken: 0, hls: null, savedAt: 0 };
 function installedAddons() { return [...addons.installed.values()].filter(a => a.enabled !== false && AddonCore.https(a.url)); }
+function addonSourcePlayable(source){return !!(source?.url||(window.MinhaTvApp?.nativePlayback&&source?.nativeUrl));}
 
 function resetAddonCatalog() { addons.registered.clear(); if(typeof resetAddonLibrary==='function')resetAddonLibrary(); }
 async function addonJSON(url, max = 4000000) {
@@ -802,9 +809,9 @@ async function loadAddonStreams(token = addons.contentToken, generation = accoun
   const results = await Promise.allSettled(providers.slice(0,20).map(async a => ({ addon:a, json:await addonJSON(AddonCore.resourceURL(a.url,'stream',item.type,contentId),1500000) })));
   if (token !== addons.contentToken || generation !== account.generation || episodeId !== addons.episode?.id) return;
   results.forEach(r => { if (r.status === 'fulfilled') (Array.isArray(r.value.json.streams) ? r.value.json.streams : []).slice(0,80).forEach(s => { const stream = AddonCore.stream(s); if (stream) addons.sources.push({...stream,provider:r.value.addon.manifest.name}); }); });
-  const usable = addons.sources.filter(s => s.url), unsupported = addons.sources.filter(s => !s.url);
-  $('addon-sources').innerHTML = usable.length ? `<div class="addon-source-list">${addons.sources.map((s,i) => s.url ? `<button class="addon-source" data-addon-source="${i}"><span>${icon('play')}</span><span><strong>${esc(s.provider + ' · ' + s.label)}</strong><small>${esc(s.title || 'Reproduzir esta fonte')}</small></span></button>` : '').join('')}</div>` : `<div class="addon-source-empty"><h3>Nenhuma fonte compatível disponível</h3><p>${!providers.length ? 'Adicione um addon de fontes compatível com este tipo de título.' : 'Os addons consultados não retornaram um vídeo HTTPS compatível. Você pode tentar outra fonte ou atualizar.'}</p></div>`;
-  if (unsupported.length) $('addon-sources').innerHTML += `<p class="account-helper">${unsupported.length} ${unsupported.length === 1 ? 'fonte requer' : 'fontes requerem'} um motor de streaming ou player adicional. Torrents e fontes que exigem cabeçalhos especiais ainda não são reproduzidos neste app.</p>`;
+  const usable = addons.sources.filter(addonSourcePlayable), unsupported = addons.sources.filter(s => !addonSourcePlayable(s));
+  $('addon-sources').innerHTML = usable.length ? `<div class="addon-source-list">${addons.sources.map((s,i) => addonSourcePlayable(s) ? `<button class="addon-source" data-addon-source="${i}"><span>${icon('play')}</span><span><strong>${esc(s.provider + ' · ' + s.label)}</strong><small>${esc(s.title || 'Reproduzir esta fonte')}</small></span></button>` : '').join('')}</div>` : `<div class="addon-source-empty"><h3>Nenhuma fonte compatível disponível</h3><p>${!providers.length ? 'Adicione um addon de fontes compatível com este tipo de título.' : 'Os addons consultados não retornaram um vídeo HTTPS compatível. Você pode tentar outra fonte ou atualizar.'}</p></div>`;
+  if (unsupported.length) $('addon-sources').innerHTML += `<p class="account-helper">${unsupported.length} ${unsupported.length === 1 ? 'fonte requer' : 'fontes requerem'} um motor de streaming ou player adicional. Fontes torrent, arquivos compactados e DRM não são reproduzidos por este player.</p>`;
   if (results.some(r => r.status === 'rejected')) $('addon-sources').innerHTML += '<p class="account-helper">Alguns addons não responderam. As outras fontes continuam disponíveis.</p>';
 }
 function saveAddonProgress() {
@@ -921,7 +928,7 @@ document.addEventListener('click',async e=>{
 const renderAccountWithPairing = renderAccount;
 renderAccount = function () {
   let html = renderAccountWithPairing();
-  if (window.MinhaTvApp) html += `<section class="account-card"><h3>Atualizações do aplicativo</h3><p>Versão ${esc(window.MinhaTvApp.version)}. Instale as próximas versões pela própria Minha TV.</p><button class="button-secondary" data-account-action="app-update">Verificar atualização</button></section>`;
+  if (window.MinhaTvApp) html += `<section class="account-card"><h3>Atualizações do aplicativo</h3><p>Versão ${esc(window.MinhaTvApp.version)}. Instale as próximas versões pela própria Minha TV.</p><button class="button-secondary" data-account-action="app-update">Verificar atualização</button>${window.MinhaTvApp.nativePlayback?'<button class="button-secondary" data-native-settings>Preferências de legendas</button>':''}</section>`;
   return html;
 };
 window.addEventListener('minhatv-app-ready', () => { if (state.view === 'conta' && !document.querySelector('#account-form input:focus')) updateAccountView(); });
