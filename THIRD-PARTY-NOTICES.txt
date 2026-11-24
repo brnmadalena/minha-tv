@@ -1394,3 +1394,20 @@ Bundled JAR SHA-256: b03291b19348fdb4e7c5a97b316a19d71a583f45e68fd2b9ea2ea0a867e
 
    END OF TERMS AND CONDITIONS
 
+
+
+===== Live channel source references =====
+iptv-org Brasil
+https://github.com/iptv-org/iptv
+Playlist: https://iptv-org.github.io/iptv/countries/br.m3u
+
+Free-TV Brasil
+https://github.com/Free-TV/IPTV
+Playlist: https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_brazil.m3u8
+
+Pluto Brasil · Llorchico
+https://github.com/Llorchico/Pluto
+Playlist: https://raw.githubusercontent.com/Llorchico/Pluto/main/pluto_br.m3u
+
+XMLTV Pluto: https://github.com/matthuisman/i.mjh.nz
+These projects provide references/metadata. The app does not host or redistribute the video streams. Playlist availability and territorial restrictions are controlled by the respective providers.

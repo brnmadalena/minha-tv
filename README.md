@@ -2,6 +2,18 @@
 
 [Abrir site](https://brnmadalena.github.io/minha-tv/) · [APK direto para o Downloader](https://brnmadalena.github.io/minha-tv/tv.apk) · [Versões e fontes](https://github.com/brnmadalena/minha-tv/releases)
 
+## Grade ampliada — APK 1.6.0, site e página local
+
+Fontes brasileiras iptv-org, Free-TV e Pluto/Llorchico integradas à grade existente. A cópia inicial contém 497 fontes HTTPS, reunidas em 411 canais antes de combinar com a API Rei dos Canais. Nomes/identificadores existentes são preservados para manter os favoritos; canais novos recebem identificadores estáveis. Versões do mesmo canal são agrupadas quando há correspondência de identificador ou nome normalizado, sem juntar automaticamente afiliadas diferentes.
+
+Em **Canais > Fontes de canais** ou **Minha conta > Canais ao vivo**, ative/desative listas e atualize manualmente. As listas também são atualizadas ao abrir o app e a cada 6 horas enquanto ele está aberto. Se uma lista falhar, a última cópia permanece disponível. Essa seleção fica neste aparelho; favoritos continuam sincronizados pela conta. Nenhuma lista privada ou cadastro em outro serviço é necessário.
+
+Transmissões diretas usam HLS/vídeo no navegador e Media3/ExoPlayer no APK, mantendo o guia e a navegação pelo controle sobre o vídeo nativo. Falhas ou demora no carregamento tentam outras fontes do canal, sem repetir as que falharam naquela sessão. Os players incorporados já existentes continuam disponíveis como alternativas. O vídeo depende da conectividade, região e disponibilidade dos provedores; não se garante que toda entrada de lista reproduza em toda rede.
+
+Guia XMLTV da Pluto associado pelos identificadores dos canais; validado com programação atual/seguinte de 186 canais. A API anterior mantém sua programação quando disponível. Fontes sem guia correspondente mostram “Programação não informada”. URLs HTTP das novas listas são filtradas; nenhuma nova exceção HTTP, alteração de certificados ou nova permissão Android foi adicionada.
+
+Validação: parser M3U, união/deduplicação, favoritos existentes, filtros de endereços e XMLTV; regressões de contas, biblioteca e player sob demanda. Navegador: fallback de fonte 404 para HLS e configuração de listas. Emulador Android TV API36: vídeo nativo visível, guia lateral com vídeo contínuo, troca pelo controle, fonte inválida seguida de alternativa automática e canal real +MaisUm. Ainda sem teste físico desta versão no Fire TV Stick ou Xiaomi Box.
+
 ## Tela cheia no navegador — 24/11/2026
 
 Corrigido o botão Tela cheia e o atalho F nos filmes e séries do site e da página local. A expansão usa um contêiner que reúne vídeo, legendas e controles, compatível com a API de tela cheia. Esc ou o próprio botão sai da tela cheia. A troca de versão/fonte mantém o contêiner e a posição do vídeo. Validado no navegador com MP4 e HLS; o APK permanece na versão 1.5.1.
