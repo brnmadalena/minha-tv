@@ -12,7 +12,7 @@ Em **Legendas > Preferências**, escolha idioma principal/secundário, tipo norm
 
 O site e o arquivo local usam o motor do navegador. Faixas de áudio/legendas precisam ser expostas por ele; CORS, conteúdo HTTP em páginas HTTPS, cabeçalhos especiais e codecs podem limitar fontes que funcionam no APK nativo. Esses controles não removem as restrições do navegador. A página local abre com dois cliques, mas precisa de internet para catálogos, vídeos, addons e legendas remotas. O APK permanece na versão 1.5.1.
 
-Validação: reprodução MP4, consulta real ao OpenSubtitles v3, seleção de legenda externa, renderização de faixa embutida e de arquivo local, aparência amarela, troca de fonte mantendo posição/pausa e próximo episódio. Testes automatizados de SRT/WebVTT/ASS, codificações, sincronização, gzip/ZIP e limites de descompactação; regressão de contas e catálogos. Bibliotecas web verificadas pelo npm audit sem vulnerabilidades conhecidas.
+Validação: reprodução MP4 e HLS, troca real de áudio entre seis faixas e legenda HLS em português do Brasil, fallback HLS nativo quando necessário, consulta real ao OpenSubtitles v3, seleção de legenda externa, renderização de faixa embutida e de arquivo local, aparência amarela, troca de fonte mantendo posição/pausa e próximo episódio. Testes automatizados de SRT/WebVTT/ASS, codificações, sincronização, gzip/ZIP e limites de descompactação; regressão de contas e catálogos. Bibliotecas web verificadas pelo npm audit sem vulnerabilidades conhecidas.
 
 ## Correção de reprodução — APK 1.5.1
 
