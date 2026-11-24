@@ -2,6 +2,10 @@
 
 [Abrir site](https://brnmadalena.github.io/minha-tv/) · [APK direto para o Downloader](https://brnmadalena.github.io/minha-tv/tv.apk) · [Versões e fontes](https://github.com/brnmadalena/minha-tv/releases)
 
+## Tela cheia no navegador — 24/11/2026
+
+Corrigido o botão Tela cheia e o atalho F nos filmes e séries do site e da página local. A expansão usa um contêiner que reúne vídeo, legendas e controles, compatível com a API de tela cheia. Esc ou o próprio botão sai da tela cheia. A troca de versão/fonte mantém o contêiner e a posição do vídeo. Validado no navegador com MP4 e HLS; o APK permanece na versão 1.5.1.
+
 ## Player no computador e no site — atualização web
 
 Os filmes e episódios agora usam os mesmos grupos de controles do aplicativo de TV: Legendas, Áudio, Fontes, Episódios, próximo episódio, ajuste de tela, velocidade, recomeçar e tentar novamente. A troca de fonte preserva a posição e a pausa. Atalhos: Espaço pausa/reproduz, setas esquerda/direita buscam 10 segundos, F abre tela cheia e Esc retorna.

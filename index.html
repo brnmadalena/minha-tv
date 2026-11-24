@@ -69,7 +69,10 @@ html:not(.tv-ui) .web-vod-surface:focus{outline:0!important;box-shadow:none!impo
 @media(prefers-reduced-motion:reduce){.web-vod-root *{transition:none!important;scroll-behavior:auto!important}}
 
 html:not(.tv-ui) dialog.web-vod-mode{width:min(1320px,100vw);height:min(800px,94dvh);top:50%;left:50%;transform:translate(-50%,-50%);border-radius:16px;box-shadow:0 25px 100px #0009}
-html:not(.tv-ui) dialog.web-vod-mode:fullscreen{width:100%;height:100%;top:0;left:0;transform:none;border-radius:0}
+html:not(.tv-ui) .web-vod-mode>.web-vod-frame{display:block!important;position:absolute;inset:0;width:100%;height:100%;background:#000;color:#f0f2f6}
+.web-vod-frame:fullscreen{position:fixed;inset:0;width:100vw;height:100vh;max-width:none;max-height:none;margin:0;padding:0;border:0;background:#000}
+.web-vod-frame>#vod-screen,.web-vod-frame>#addon-video-stage{display:block!important;position:absolute;inset:0;width:100%;height:100%;max-height:none;background:#000;border-radius:0;margin:0;overflow:hidden}
+.web-vod-frame>.web-vod-root{display:block!important;position:absolute;inset:0;z-index:5;pointer-events:none}
 .web-vod-root .web-vod-surface{z-index:0;cursor:pointer}.web-vod-close{position:absolute;top:18px;right:20px;z-index:4;width:46px;height:46px;min-height:46px;border:1px solid #ffffff60;border-radius:50%;background:#111b2ddd;color:#fff;font-size:28px;pointer-events:auto;opacity:0;visibility:hidden}.controls-visible .web-vod-close{opacity:1;visibility:visible}
 .web-vod-transport{z-index:2;padding:70px 30px 24px}.web-vod-transport h2{font-size:clamp(20px,2.4vw,29px);margin-bottom:18px}.web-vod-actions{flex-wrap:wrap;gap:8px;margin-top:18px}.web-vod-actions button{font-size:14px;min-height:44px;padding:10px 13px}.web-vod-help{font-size:13px;margin-top:14px}.web-vod-track{font-size:14px;gap:12px}
 #web-vod-timeline{pointer-events:auto;cursor:pointer;min-height:16px;height:16px;border:5px solid transparent;background-clip:padding-box}#web-vod-timeline:focus-visible{outline:3px solid #a9d5ff;outline-offset:3px}.web-vod-actions button:hover,.web-vod-choices button:hover{background:#304c70}.web-vod-root button:focus-visible{outline:3px solid #b6dcff;outline-offset:3px}
@@ -1287,7 +1290,7 @@ function updateDate(){$('today').textContent=new Intl.DateTimeFormat('pt-BR',{we
   ];ui().sheet('Legendas · '+s.external.length+' dos addons',items,'browser-subtitles');}
   function audio(){if(!current())return;const h=engine(),v=session.player.video;let tracks=[];if(h?.audioTracks?.length)tracks=h.audioTracks.map((t,i)=>({label:SubtitleCore.label(t.lang)+' · '+(t.name||'Áudio '+(i+1)),selected:h.audioTrack===i,run:()=>{h.audioTrack=i;ui().closeSheet();}}));else tracks=Array.from(v.audioTracks||[]).map((t,i)=>({label:SubtitleCore.label(t.language)+' · '+(t.label||'Áudio '+(i+1)),selected:t.enabled,run:()=>{for(const other of Array.from(v.audioTracks))other.enabled=other===t;ui().closeSheet();}}));panel('Áudio',tracks.length?tracks:[{label:'Este navegador não expôs faixas de áudio selecionáveis para esta fonte.',disabled:true},{label:'Escolher outra versão ou fonte',run:()=>ui().sources()}]);}
   function speed(){if(current())panel('Velocidade de reprodução',[.5,.75,1,1.25,1.5,2].map(value=>({label:value===1?'Normal':value+'×',selected:session.player.video.playbackRate===value,run:()=>{session.player.video.playbackRate=value;ui().closeSheet();}})));}
-  function fullscreen(){if(!current())return;if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});else if(session.player.dialog.requestFullscreen)session.player.dialog.requestFullscreen().catch(()=>message('Não foi possível abrir a tela cheia. Use a opção do navegador.'));else message('Este navegador não oferece tela cheia para este player.');}
+  function fullscreen(){if(!current())return;const s=session;s.message='';ui().show();if(document.fullscreenElement){document.exitFullscreen().catch(()=>{if(session===s)message('Não foi possível sair da tela cheia. Pressione Esc.');});return;}const frame=s.player.frame;if(frame?.requestFullscreen){try{Promise.resolve(frame.requestFullscreen()).catch(()=>{if(session===s&&current())message('O navegador não permitiu tela cheia. Verifique a permissão de tela cheia para esta página.');});}catch(_){message('O navegador não permitiu tela cheia para esta página.');}}else message('Este navegador não oferece tela cheia para este player.');}
   function attach(player){session={player,owner:owner(),prefs:prefs(),external:[],selected:null,lines:null,manual:false,autoKey:'',attempt:0,pending:0,errors:0,filter:'',message:'',cache:new Map(),failed:new Set(),controllers:new Set(),cueCache:new WeakMap()};providers();automatic();}
   function detach(player){if(session?.player!==player)return;for(const controller of session.controllers)controller.abort();session.attempt++;session=null;}
   function update(player){if(!current()||session.player!==player)return;const s=session,p=s.prefs;automatic();const caption=player.root.querySelector('.web-vod-caption');let text='';if(s.lines)text=SubtitleCore.at(s.lines,player.video.currentTime,p.delay/1000);else if(s.selected&&s.selected.kind!=='external'){let track=s.selected.track;if(s.selected.kind==='hls'){const nativeTracks=Array.from(player.video.textTracks||[]);track=nativeTracks.find(t=>t.mode==='hidden'&&SubtitleCore.score(t.language,s.selected.lang)>0)||nativeTracks.find(t=>t.label===s.selected.label&&SubtitleCore.score(t.language,s.selected.lang)>0)||nativeTracks.find(t=>SubtitleCore.score(t.language,s.selected.lang)>0);if(track)track.mode='hidden';}if(track?.cues){const cues=track.cues,key=cues.length+':'+(cues[0]?.startTime||0)+':'+(cues[cues.length-1]?.endTime||0);let cached=s.cueCache.get(track);if(cached?.key!==key){cached={key,lines:Array.from(cues).slice(0,100000).map(c=>({start:c.startTime,end:c.endTime,text:SubtitleCore.clean(c.text||'')}))};s.cueCache.set(track,cached);}text=SubtitleCore.at(cached.lines,player.video.currentTime,p.delay/1000);}}caption.textContent=text;caption.style.fontSize=p.size+'px';caption.style.color=p.style==='yellow'?'#ffec45':'#fff';caption.classList.toggle('with-background',p.style==='background');caption.style.setProperty('--caption-bottom',p.position+'%');caption.hidden=!text;}
@@ -1302,6 +1305,7 @@ function updateDate(){$('today').textContent=new Intl.DateTimeFormat('pt-BR',{we
   if(document.documentElement.classList.contains('tv-ui'))return;
   const originalSet=setVodVideo,originalStop=stopVodVideo,originalAddonPlay=playAddonSource,originalAddonStop=stopAddonVideo;
   const originalOpen=openVod,originalAddonOpen=openAddonContent;
+  let replacing=false;
   let player=null,hideTimer=null,seekTimer=null,pendingSeek=null,seekStarted=0,nextPosition=null,nextPaused=null,pendingEpisode=0;
   const $tv=id=>document.getElementById(id);
   function put(id,text){const el=$tv(id);if(el.textContent!==text)el.textContent=text;}
@@ -1353,7 +1357,7 @@ function updateDate(){$('today').textContent=new Intl.DateTimeFormat('pt-BR',{we
   }
   function detach(){
     clearTimeout(hideTimer);clearSeek();if(!player)return;
-    const p=player;window.MinhaTvBrowserFeatures?.detach(p);player=null;clearInterval(p.poll);p.listeners.forEach(([event,fn])=>p.video.removeEventListener(event,fn));p.dialog.classList.remove('web-vod-mode');p.root.remove();
+    const p=player;window.MinhaTvBrowserFeatures?.detach(p);player=null;clearInterval(p.poll);p.listeners.forEach(([event,fn])=>p.video.removeEventListener(event,fn));p.dialog.classList.remove('web-vod-mode');p.root.remove();if(!replacing){if(p.frame.contains(p.stage))p.dialog.appendChild(p.stage);p.frame.remove();}
   }
   stopVodVideo=function(){if(player?.kind==='vod')detach();originalStop();};
   stopAddonVideo=function(){if(player?.kind==='addon')detach();originalAddonStop();};
@@ -1385,7 +1389,7 @@ function updateDate(){$('today').textContent=new Intl.DateTimeFormat('pt-BR',{we
       <div class="web-vod-actions"><button id="web-vod-toggle" data-web-vod="toggle">Ⅱ Pausar</button><button data-web-vod="rewind">↶ 10 s</button><button data-web-vod="forward">10 s ↷</button><button data-web-vod="episodes" ${!(kind==='vod'?vod.episodes:addons.selected?.videos)?.length?'hidden':''}>Episódios</button><button data-web-vod="next" hidden>Próximo episódio</button><button data-web-vod="subtitles">Legendas</button><button data-web-vod="audio">Áudio</button><button data-web-vod="sources">Fontes</button><button data-web-vod="fullscreen">Tela cheia</button><button data-web-vod="options">Opções</button><button data-web-vod="exit">Voltar ao título</button></div>
       <p class="web-vod-help">Espaço Pausar/reproduzir · ← → Buscar 10 s · F Tela cheia · Esc Voltar</p></section>
       <aside class="web-vod-sheet" aria-label="Opções de reprodução" hidden><button class="web-vod-sheet-close" data-web-vod="close-sheet" aria-label="Fechar opções">×</button><h2></h2><div class="web-vod-choices"></div><p>Use o mouse ou ↑↓ e Enter para escolher. Esc para voltar.</p></aside>`;
-    d.appendChild(root);player={kind,sourceIndex,video:v,dialog:d,root,surface:root.querySelector('.web-vod-surface'),sheet:'',notice:'',listeners:[],poll:null,season:ep?.season||1};
+    const stage=$tv(kind==='vod'?'vod-screen':'addon-video-stage');let frame=d.querySelector('.web-vod-frame');if(!frame){frame=document.createElement('div');frame.className='web-vod-frame';d.appendChild(frame);}frame.append(stage,root);player={frame,stage,kind,sourceIndex,video:v,dialog:d,root,surface:root.querySelector('.web-vod-surface'),sheet:'',notice:'',listeners:[],poll:null,season:ep?.season||1};
     function listen(event,fn){v.addEventListener(event,fn);player.listeners.push([event,fn]);}
     const epList=episodes(),at=epList.indexOf(episode());root.querySelector('[data-web-vod=next]').hidden=at<0||at>=epList.length-1;
     listen('playing',()=>{if(!active())return;player.notice='';update();schedule();});listen('pause',()=>{show();update();});listen('ended',()=>{show();focus(root.querySelector('[data-web-vod=next]:not([hidden])')||$tv('web-vod-toggle'));update();});
@@ -1399,8 +1403,8 @@ function updateDate(){$('today').textContent=new Intl.DateTimeFormat('pt-BR',{we
     $tv('web-vod-timeline').addEventListener('click',e=>{const d=duration();if(d&&v.seekable.length){const r=e.currentTarget.getBoundingClientRect();v.currentTime=Math.max(0,Math.min(d-.25,(e.clientX-r.left)/r.width*d));show();update();}});
     player.poll=setInterval(update,200);update();focus(player.surface);schedule();
   }
-  setVodVideo=function(index,position){if(position>0)nextPosition=position;originalSet(index,position);attach('vod',index);};
-  playAddonSource=function(index){originalAddonPlay(index);attach('addon',index);};
+  setVodVideo=function(index,position){if(position>0)nextPosition=position;replacing=true;try{originalSet(index,position);attach('vod',index);}finally{replacing=false;}};
+  playAddonSource=function(index){replacing=true;try{originalAddonPlay(index);attach('addon',index);}finally{replacing=false;}};
   let choices=[];
   function sheet(title,items,mode){
     if(!active())return;clearTimeout(hideTimer);commitSeek();player.sheet=mode;show();choices=items;
