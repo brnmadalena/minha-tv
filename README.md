@@ -2,6 +2,18 @@
 
 [Abrir site](https://brnmadalena.github.io/minha-tv/) · [APK direto para o Downloader](https://brnmadalena.github.io/minha-tv/tv.apk) · [Versões e fontes](https://github.com/brnmadalena/minha-tv/releases)
 
+## Player no computador e no site — atualização web
+
+Os filmes e episódios agora usam os mesmos grupos de controles do aplicativo de TV: Legendas, Áudio, Fontes, Episódios, próximo episódio, ajuste de tela, velocidade, recomeçar e tentar novamente. A troca de fonte preserva a posição e a pausa. Atalhos: Espaço pausa/reproduz, setas esquerda/direita buscam 10 segundos, F abre tela cheia e Esc retorna.
+
+Legendas reúne faixas embutidas expostas pelo navegador, legendas da fonte e addons instalados na conta, incluindo OpenSubtitles. As consultas usam o identificador do filme/episódio e os dados do arquivo quando disponíveis. Também é possível carregar SRT, WebVTT e ASS/SSA do computador, inclusive gzip/ZIP de até 4 MB. O estilo original de ASS é substituído pelo estilo escolhido.
+
+Em **Legendas > Preferências**, escolha idioma principal/secundário, tipo normal/SDH/forçadas, prioridade embutida/addons, aparência, tamanho, posição e sincronização. Também há acesso em **Minha conta > Reprodução e legendas**. Os padrões ficam por conta neste navegador; cada TV mantém seus próprios padrões. Addons, favoritos e progresso continuam acompanhando a conta.
+
+O site e o arquivo local usam o motor do navegador. Faixas de áudio/legendas precisam ser expostas por ele; CORS, conteúdo HTTP em páginas HTTPS, cabeçalhos especiais e codecs podem limitar fontes que funcionam no APK nativo. Esses controles não removem as restrições do navegador. A página local abre com dois cliques, mas precisa de internet para catálogos, vídeos, addons e legendas remotas. O APK permanece na versão 1.5.1.
+
+Validação: reprodução MP4, consulta real ao OpenSubtitles v3, seleção de legenda externa, renderização de faixa embutida e de arquivo local, aparência amarela, troca de fonte mantendo posição/pausa e próximo episódio. Testes automatizados de SRT/WebVTT/ASS, codificações, sincronização, gzip/ZIP e limites de descompactação; regressão de contas e catálogos. Bibliotecas web verificadas pelo npm audit sem vulnerabilidades conhecidas.
+
 ## Correção de reprodução — APK 1.5.1
 
 Diagnóstico feito diretamente na TV Android 12 do proprietário, com fontes da conta já instalada. O player passa a seguir os redirecionamentos de mídia preservando os links assinados. HTTP é permitido somente para os destinos exatos ultrap.top e 23.158.40.171, após autorização explícita do proprietário; não há liberação global nem para subdomínios. Nesses destinos, endereços e tokens dos vídeos podem ser observados na rede. Login, consultas de addons e legendas continuam em HTTPS e certificados inválidos continuam bloqueados.
