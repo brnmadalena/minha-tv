@@ -1277,6 +1277,7 @@ const LiveSources=(()=>{
   function media(command){const p=playback;if(!p)return false;const paused=command==='pause'||command==='toggle'&&!p.paused;p.paused=paused;if(paused)clearTimeout(p.timer);else arm(p);if(p.native)window.prompt('minhatv:live-command',paused?'pause':'play');else if(p.video){if(paused)p.video.pause();else p.video.play().catch(()=>status('Não foi possível retomar esta transmissão.',true));}return true;}
   window.addEventListener('pagehide',stop);window.addEventListener('minhatv-app-resume',()=>{if(playback?.native)media('play');});
   window.addEventListener('online',()=>refresh());setInterval(()=>{if(!document.hidden)refresh();},3600000);
+  setInterval(()=>{if(!document.hidden)refreshEPG();},900000);
   state.channels=LiveCore.merge([],providers,guides);state.loaded=true;queueMicrotask(()=>refresh());
   return {acceptAPI,refresh,media,direct:()=>!!playback,stop,providers:()=>providers,epg:()=>guides};
 })();
