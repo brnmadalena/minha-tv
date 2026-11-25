@@ -2,6 +2,16 @@
 
 [Abrir site](https://brnmadalena.github.io/minha-tv/) · [APK direto para o Downloader](https://brnmadalena.github.io/minha-tv/tv.apk) · [Versões e fontes](https://github.com/brnmadalena/minha-tv/releases)
 
+## Controle remoto e agenda — 1.6.3
+
+Ver evento abre diretamente em tela inteira, incluindo transmissões incorporadas e fontes diretas. OK ou direita abre as opções e servidores do evento; Voltar fecha as opções antes de voltar à agenda. Favoritos de eventos conservam seus identificadores.
+
+Setas seguem a fileira e a coluna. Esquerda/direita não pula para outra linha; cima/baixo escolhe a linha adjacente, ignorando cartões cortados lateralmente e os pequenos ícones sobrepostos. O foco distingue o mesmo título em fileiras diferentes e é preservado durante atualizações da tela. Remover um título mantém o foco no próximo item da mesma fileira.
+
+Nos cartões de filmes, séries, canais e eventos, segure OK por aproximadamente 1 segundo para abrir as opções. Favoritar/remover favorito e Remover de Continuar assistindo usam os mesmos dados e sincronização existentes, inclusive para addons. Um toque curto abre o item ao soltar; soltar depois da pressão longa não inicia a reprodução. Menu continua disponível como atalho.
+
+O visual atual da TV foi mantido. O site não foi modificado. Compilado com a mesma assinatura, versionCode 12, sem novas permissões ou mudanças nos servidores. Validação em emulador Android TV; não foi realizado teste físico desta versão no Fire TV Stick ou Xiaomi Box.
+
 ## Volume e duplo clique no computador — versão 1.6.2
 
 Os canais diretos, filmes e séries do player próprio agora têm controle de volume visível de 0 a 100%, percentual e botão Silenciar/Ativar som. O volume escolhido fica salvo neste navegador e acompanha a troca de fonte ou título. O controle aceita mouse e teclado. No APK, o volume continua sendo ajustado pelo controle do aparelho.
