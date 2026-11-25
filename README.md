@@ -2,6 +2,14 @@
 
 [Abrir site](https://brnmadalena.github.io/minha-tv/) · [APK direto para o Downloader](https://brnmadalena.github.io/minha-tv/tv.apk) · [Versões e fontes](https://github.com/brnmadalena/minha-tv/releases)
 
+## Nitidez dos canais na TV — 1.6.4
+
+Corrigido o desfoque aplicado pelo fundo transparente da janela do player sobre o vídeo nativo. A correção abrange os canais diretos, incluindo Pluto TV, e mantém as opções sobre o vídeo sem aplicar esse filtro à transmissão.
+
+Mantidas as correções de agenda em tela inteira, navegação por fileiras e ações ao segurar OK da versão 1.6.3. O site permanece inalterado. Mesma assinatura, sem novas permissões ou mudanças nos servidores.
+
+Validado via ADB na TV do usuário com reprodução real de canais Pluto. A resolução e a qualidade originais de cada transmissão continuam dependendo da fonte.
+
 ## Controle remoto e agenda — 1.6.3
 
 Ver evento abre diretamente em tela inteira, incluindo transmissões incorporadas e fontes diretas. OK ou direita abre as opções e servidores do evento; Voltar fecha as opções antes de voltar à agenda. Favoritos de eventos conservam seus identificadores.
