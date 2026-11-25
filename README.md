@@ -2,6 +2,14 @@
 
 [Abrir site](https://brnmadalena.github.io/minha-tv/) · [APK direto para o Downloader](https://brnmadalena.github.io/minha-tv/tv.apk) · [Versões e fontes](https://github.com/brnmadalena/minha-tv/releases)
 
+## Volume e duplo clique no computador — versão 1.6.2
+
+Os canais diretos, filmes e séries do player próprio agora têm controle de volume visível de 0 a 100%, percentual e botão Silenciar/Ativar som. O volume escolhido fica salvo neste navegador e acompanha a troca de fonte ou título. O controle aceita mouse e teclado. No APK, o volume continua sendo ajustado pelo controle do aparelho.
+
+Duplo clique sobre o vídeo entra e sai da tela cheia. Nos filmes e séries, o gesto preserva a pausa/reprodução e mantém vídeo, legendas e controles juntos. Nos canais diretos, a tela cheia inclui os controles de reprodução, volume e transmissão. O botão Tela cheia continua disponível. Nos players de terceiros incorporados, volume e gestos dependem do próprio provedor.
+
+Validado no navegador com canal real CSI: Miami BR, MP4 e série HLS de teste: ajuste e restauração do volume, silêncio, volume preservado ao trocar de fonte e duplo clique nos dois sentidos. Regressões de legendas/tela cheia, contas, biblioteca e canais aprovadas. A versão inclui as correções da Pluto e dos 12 endereços antigos descritas abaixo.
+
 ## Reprodução dos canais — versão 1.6.1
 
 Corrigida a reprodução da Pluto no navegador, incluindo os canais Pluto distribuídos pelo iptv-org. O servidor responde aos links, mas seus manifestos não permitem leitura direta pelo site. Uma função de compatibilidade no Supabase atende exclusivamente os caminhos de playlists da Pluto; os fragmentos de vídeo continuam vindo diretamente do CDN do provedor. A função mantém validação de acesso, HTTPS, limites de tamanho/tempo e uma lista exata de destinos. Não recebe credenciais de contas, não consulta o banco e não retransmite vídeo. O código está em live-manifest.js; implantar como live-manifest no projeto configurado em app-config.json, mantendo a verificação JWT ativa.
