@@ -2,6 +2,18 @@
 
 [Abrir site](https://brnmadalena.github.io/minha-tv/) · [APK direto para o Downloader](https://brnmadalena.github.io/minha-tv/tv.apk) · [Versões e fontes](https://github.com/brnmadalena/minha-tv/releases)
 
+## Reprodução dos canais — versão 1.6.1
+
+Corrigida a reprodução da Pluto no navegador, incluindo os canais Pluto distribuídos pelo iptv-org. O servidor responde aos links, mas seus manifestos não permitem leitura direta pelo site. Uma função de compatibilidade no Supabase atende exclusivamente os caminhos de playlists da Pluto; os fragmentos de vídeo continuam vindo diretamente do CDN do provedor. A função mantém validação de acesso, HTTPS, limites de tamanho/tempo e uma lista exata de destinos. Não recebe credenciais de contas, não consulta o banco e não retransmite vídeo. O código está em live-manifest.js; implantar como live-manifest no projeto configurado em app-config.json, mantendo a verificação JWT ativa.
+
+Doze referências antigas do iptv-org foram substituídas por playlists HTTPS verificadas nos endereços atuais: Auge TV, Bem Melhor, Líder TV, Demais TV, Rede Premium TV, Series Classic, Canal START, TV Adorar, TV Mon, TV Gazin, TV Meio e TV Carioca. O endereço da Líder TV foi conferido no próprio player da emissora. As correções também se aplicam à última lista salva no aparelho e às próximas atualizações. Não foram trocadas afiliadas ou identificadores de favoritos.
+
+Quando todas as fontes falham, o player encerra as tentativas, remove o carregamento e mostra Tentar novamente. Fontes alternativas continuam sendo tentadas antes desse estado. No APK, Play/Pause permite repetir a tentativa após uma falha definitiva.
+
+Validação real no navegador: CSI: Miami BR, Grachi, MasterChef, Líder TV e +MaisUm, com quadros de vídeo e reprodução em andamento. No emulador Android TV API36: CSI: Miami BR no player nativo, com a lista de canais por cima do vídeo. Regressões de contas/addons, biblioteca, legendas/tela cheia e testes do parser/manifestos aprovados. Esta versão ainda não foi testada fisicamente no Fire TV Stick ou na Xiaomi Box; fontes independentes indisponíveis continuam dependendo dos provedores.
+
+Atualize a página com Ctrl+F5, reabra o arquivo local ou, na TV, use Minha conta > Verificar atualização. APK 1.6.1, versionCode 10, assinado com a mesma chave. Nenhuma nova permissão, exceção HTTP ou alteração de certificados.
+
 ## Grade ampliada — APK 1.6.0, site e página local
 
 Fontes brasileiras iptv-org, Free-TV e Pluto/Llorchico integradas à grade existente. A cópia inicial contém 497 fontes HTTPS, reunidas em 411 canais antes de combinar com a API Rei dos Canais. Nomes/identificadores existentes são preservados para manter os favoritos; canais novos recebem identificadores estáveis. Versões do mesmo canal são agrupadas quando há correspondência de identificador ou nome normalizado, sem juntar automaticamente afiliadas diferentes.
